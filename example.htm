@@ -1,0 +1,40 @@
+<link href="coords.css" rel="stylesheet" type="text/css" />
+
+
+<div class="input input-container coords w2"><input type="coords" name="latitude"  class="coords w2"></div>
+<div class="input input-container coords w2"><input type="coords" name="longitude" class="coords w2"></div>
+
+<script src="coords.js"></script>
+<script>
+    coords.init( 'input[type="coords"]' );
+
+    //testes
+    //Oficiais
+    //DMS
+    // pr( coords.parse( '41 25 01N' ) );
+    // pr( coords.parse( '41°25\'01"N' ) );
+    // pr( coords.parse( 'S17 33 08.352' ) );
+    // pr( coords.parse( '+17 33 08.352' ) );
+    // pr( coords.parse( '-41°25\'01"' ) );
+    // //DM
+    // pr( coords.parse( '41 25N' ) );
+    // pr( coords.parse( '41°25\'N' ) );
+    // pr( coords.parse( 'N41 25.117' ) );
+    // pr( coords.parse( '-41 25.117' ) );
+    // pr( coords.parse( '-41°25\'' ) );
+    // //D
+    // pr( coords.parse( '41 N' ) );
+    // pr( coords.parse( '41°N ' ) );
+    // pr( coords.parse( 'N41.092' ) );
+    // pr( coords.parse( '90S' ) );
+    // pr( coords.parse( '-41°' ) );
+    // pr( coords.parse( '+N41.092' ) );
+
+    //Testes com erros nos caracteres
+    // pr( coords.parse( '41º 25\' 01"' ) );
+    // pr( coords.parse( '41º 25ʼ  01"' ) );
+    // pr( coords.parse( '41º    25\' 01ʼʼ' ) );
+
+
+
+</script>
