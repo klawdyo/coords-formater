@@ -1,0 +1,18 @@
+#Introduction
+
+This library is intended to facilitate the use of coordinates in HTML forms, making conversions between formats and preparing the fields to receive this type of data effortlessly.
+
+#Examples
+
+##Instalation
+
+```html
+<link href="coords.css" rel="stylesheet" type="text/css" />
+<script src="coords.js"></script>```
+
+##
+    
+
+#Copyright
+
+(c) claudiomedeiros.net (klawdyo) 2017
