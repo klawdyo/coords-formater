@@ -4,23 +4,29 @@ This library is intended to facilitate the use of coordinates in HTML forms, mak
 
 ##Instalation
 
+Head
+
 ```html
 <link href="coords.css" rel="stylesheet" type="text/css" />
 <script src="coords.js"></script>```
+
+Body
 
 ```html
 <div class="input input-container coords w2">
     <input type="coords" name="latitude"  class="coords w2">
 </div>```
 
+Before close body
+
 ```javascript
-    coords.init('input[type="coords"]');
+    coords.init( 'input[type="coords"]' );
 ```
 
 ###Using jQuery
 
 ```javascript
-    $('input[type="coords"]').coords();
+    $( 'input[type="coords"]' ).coords();
 ```
 
 or
@@ -29,23 +35,23 @@ or
     $('input[type="coords"]').coords({ degrees:true, minutes: false });
 ```
 
-##Options
+#Options
 
-###degrees
+##degrees
 Show degrees. Always true
 
 **default** *true*
 
 **type** *boolean*
 
-###minutes
+##minutes
 Show minutes
 
 **default** *true*
 
 **type** *boolean*
 
-###seconds
+##seconds
 Show seconds. False if minutes is false too
 
 **default** *true*
@@ -53,65 +59,65 @@ Show seconds. False if minutes is false too
 **type** *boolean*
 
 
-###spaces   
+##spaces   
 Spaces between parts
 
 **default** *true*
 
 **type** *boolean*
 
-###degreeIndicator
+##degreeIndicator
 Degree component indicator
 
 **default** *°*
 
 **type** *string*
 
-###minuteIndicator
+##minuteIndicator
 Minute component indicator
 
 **default** *'*
 
 **type** *string*
 
-###secondIndicator
+##secondIndicator
 Second component indicator
 
 **default** *"*
 
 **type** *string*
 
-###showSign
+##showSign
 Configure to show sign at start
 
 **default** *false*
 
 **type** *boolean*
 
-###showCompassDirection
+##showCompassDirection
 Configure to show compass direction at end
 
 **default** *true*
 
 **type** *boolean*
 
-###decimalSeparator
+##decimalSeparator
 Last component's decimal separator
 
 **default** *.*
 
 **type** *string*
 
-###decimalPlaces
+##decimalPlaces
 Number of decimal places
 
 **default** *5*
 
 **type** *integer*
 
-##Methods
+#Methods
 
-###coords.init( selector [, options ] )
+##coords.init( selector [, options ] )
 Starting the library
 
 **selector** *(string)*
@@ -120,7 +126,7 @@ Selector in a format accepted by `document.querySelectorAll()`
 **options** *(object) Optional*
 Configuration object
 
-####Example
+###Example
 
 ```javascript
 coords.parse('S17 33 08.352')
@@ -129,10 +135,10 @@ coords.parse('S17 33 08.352')
 */
 ```
 
-###coords.parse( string )
+##coords.parse( string )
 Extract coordinates components from passed string
 
-####Example
+###Example
 
 ```javascript
 coords.parse('S17 33 08.352')
@@ -146,7 +152,7 @@ coords.parse('S17 33 08.352')
 }*/
 ```
 
-####Accepted Input Formats
+###Accepted Input Formats
 
 - 41 25 01N
 - 41°25'01"N
@@ -165,7 +171,7 @@ coords.parse('S17 33 08.352')
 - -41°
 - +N41.092
 
-###coords.convert( coordinate [ , options ] )
+##coords.convert( coordinate [ , options ] )
 Convert `cordinate` to other format according `options`
 
 **coordinate** *(string)*
@@ -174,7 +180,7 @@ Selector in a format accepted by `document.querySelectorAll()`
 **options** *(object) Optional*
 Configuration object
 
-####Example
+###Example
 
 ```javascript
 coords.convert('41° 25\' 01" W', { showSign: true, showCompassDirection:false, minutes:false } )
