@@ -21,19 +21,23 @@ This library is intended to facilitate the use of coordinates in HTML forms, mak
 
 ###Before close body
 
-```javascript coords.init( 'input[type="coords"]' );```
+```javascript 
+    coords.init( 'input[type="coords"]' );
+```
 
 ###Using jQuery
 
 ```javascript    
     //Using default options
-    $( 'input[type="coords"]' ).coords();```
+    $( 'input[type="coords"]' ).coords();
+```
 
 or
 
 ```javascript    
     //Using custom options
-    $('input[type="coords"]').coords({ degrees:true, minutes: false });```
+    $('input[type="coords"]').coords({ degrees:true, minutes: false });
+```
 
 #Options
 
