@@ -21,21 +21,19 @@ This library is intended to facilitate the use of coordinates in HTML forms, mak
 
 ###Before close body
 
-```javascript
-    coords.init( 'input[type="coords"]' );
-```
+```javascript coords.init( 'input[type="coords"]' );```
 
 ###Using jQuery
 
-```javascript
-    $( 'input[type="coords"]' ).coords();
-```
+```javascript    
+    //Using default options
+    $( 'input[type="coords"]' ).coords();```
 
 or
 
-```javascript
-    $('input[type="coords"]').coords({ degrees:true, minutes: false });
-```
+```javascript    
+    //Using custom options
+    $('input[type="coords"]').coords({ degrees:true, minutes: false });```
 
 #Options
 
@@ -64,23 +62,17 @@ Show seconds. False if minutes is false too
 ##spaces   
 Spaces between parts
 
-**default** *true*
-
-**type** *boolean*
+**default** `*true*` **type** *boolean*
 
 ##degreeIndicator
 Degree component indicator
 
-**default** *°*
-
-**type** *string*
+**default** `*°`* **type** `*string*`
 
 ##minuteIndicator
 Minute component indicator
 
-**default** *'*
-
-**type** *string*
+**default** `*'*`  **type** `*string*`
 
 ##secondIndicator
 Second component indicator
