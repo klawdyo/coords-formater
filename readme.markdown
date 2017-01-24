@@ -10,12 +10,14 @@ Head
 <link href="coords.css" rel="stylesheet" type="text/css" />
 <script src="coords.js"></script>```
 
+
 Body
 
 ```html
 <div class="input input-container coords w2">
     <input type="coords" name="latitude"  class="coords w2">
 </div>```
+
 
 Before close body
 
