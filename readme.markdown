@@ -128,6 +128,7 @@ coords.parse('S17 33 08.352')
 ##coords.parse( coordinate )
 Extract coordinates components from passed string
 
+###Parameters
 Name|Type|Optional|Description
 ---|---|---|---
 coordinate|string|required|Selector in a format accepted by `document.querySelectorAll()`
@@ -168,6 +169,7 @@ coords.parse('S17 33 08.352')
 ##coords.convert( coordinate [ , options ] )
 Convert `cordinate` to other format according `options`
 
+###Parameters
 Name|Type|Optional|Description
 ---|---|---|---
 coordinate|string|required|Selector in a format accepted by `document.querySelectorAll()`
