@@ -4,15 +4,12 @@ This library is intended to facilitate the use of coordinates in HTML forms, mak
 
 #Instalation
 
-###Head
-
 ```html
 <link href="coords.css" rel="stylesheet" type="text/css" />
 <script src="coords.js"></script>
 ```
 
-
-###Body
+#Usage
 
 ```html
 <div class="input input-container coords w2">
@@ -20,8 +17,9 @@ This library is intended to facilitate the use of coordinates in HTML forms, mak
 </div>
 ```
 
+#Initialization
 
-###Before close body
+###Pure Javascript
 
 ```javascript 
     coords.init( 'input[type="coords"]' );
@@ -32,11 +30,7 @@ This library is intended to facilitate the use of coordinates in HTML forms, mak
 ```javascript    
     //Using default options
     $( 'input[type="coords"]' ).coords();
-```
-
-or
-
-```javascript    
+    //or
     //Using custom options
     $('input[type="coords"]').coords({ degrees:true, minutes: false });
 ```
@@ -44,66 +38,60 @@ or
 #Options
 
 ##degrees
-Show degrees. Always true
-
-**default** *true*
-
-**type** *boolean*
+Description|Default Value|Type
+Show degrees. Always true|*true*|*boolean*
 
 ##minutes
-Show minutes
-
-**default** *true*
-
-**type** *boolean*
+Description|Default Value|Type
+Show minutes|*true*|*boolean*
 
 ##seconds
-Show seconds. False if minutes is false too
 
-**default** *true*
-
-**type** *boolean*
-
+Description|Default Value|Type
+Show seconds. False if minutes is false too|*true*|*boolean*
 
 ##spaces   
-Spaces between parts
 
-**default** `true` **type** `boolean`
+Description|Default Value|Type
+Spaces between parts|*true*|*boolean*
 
 ##degreeIndicator
-Degree component indicator
 
-**default** `°`* **type** `string`
+Description|Default Value|Type
+Degree component indicator|*true*|*boolean*
 
 ##minuteIndicator
-Minute component indicator
 
-**default** `'`  **type** `string`
+Description|Default Value|Type
+Minute component indicator|*true*|*boolean*
 
 ##secondIndicator
-Second component indicator
 
-**default** `"` **type** `string`
+Description|Default Value|Type
+Second component indicator|*true*|*boolean*
 
 ##showSign
-Configure to show sign at start
 
-**default** `false` **type** `boolean`
+Description|Default Value|Type
+Configure to show sign at start|*true*|*boolean*
 
 ##showCompassDirection
-Configure to show compass direction at end
 
-**default** `true` **type** `boolean`
+Description|Default Value|Type
+Configure to show compass direction at end|*true*|*boolean*
+
 
 ##decimalSeparator
-Last component's decimal separator
 
-**default** `.`  **type** `string`
+Description|Default Value|Type
+Last component's decimal separator|*true*|*boolean*
+
 
 ##decimalPlaces
-Number of decimal places
 
-**default** `5` **type** `integer`
+Description|Default Value|Type
+Number of decimal places|*true*|*boolean*
+
 
 #Methods
 
