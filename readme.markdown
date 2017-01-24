@@ -8,7 +8,8 @@ This library is intended to facilitate the use of coordinates in HTML forms, mak
 
 ```html
 <link href="coords.css" rel="stylesheet" type="text/css" />
-<script src="coords.js"></script>```
+<script src="coords.js"></script>
+```
 
 
 ###Body
@@ -16,7 +17,8 @@ This library is intended to facilitate the use of coordinates in HTML forms, mak
 ```html
 <div class="input input-container coords w2">
     <input type="coords" name="latitude"  class="coords w2">
-</div>```
+</div>
+```
 
 
 ###Before close body
