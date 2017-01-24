@@ -2,16 +2,16 @@
 
 This library is intended to facilitate the use of coordinates in HTML forms, making conversions between formats and preparing the fields to receive this type of data effortlessly.
 
-##Instalation
+#Instalation
 
-Head
+###Head
 
 ```html
 <link href="coords.css" rel="stylesheet" type="text/css" />
 <script src="coords.js"></script>```
 
 
-Body
+###Body
 
 ```html
 <div class="input input-container coords w2">
@@ -19,7 +19,7 @@ Body
 </div>```
 
 
-Before close body
+###Before close body
 
 ```javascript
     coords.init( 'input[type="coords"]' );
