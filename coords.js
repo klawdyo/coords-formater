@@ -63,7 +63,7 @@ var coords = {
      *
      * @example
      *
-     * @param objInput
+     * @param object objInput
      * @return
      */
     makeAllEverythingAndOthers: function( objInput ){
@@ -165,7 +165,7 @@ var coords = {
         }
 
 
-        //this.eventsHandler( select );
+        this.eventsHandler( select );
     },
 
     /*
@@ -241,13 +241,56 @@ var coords = {
         var $this = this;
 
         //Manipula o código ao colar o resultado
-        objInput.addEventListener( 'paste', function( evnt ){   $this.onPaste(   evnt, $this ) } );
+        objInput.addEventListener( 'paste',   function( evnt ){ $this.onPaste(   evnt, $this ) } );
         //Manipula o código que seleciona todo o texto ao entrar
-        objInput.addEventListener( 'focus', function( evnt ){   $this.onFocus(   evnt, $this ) } );
+        objInput.addEventListener( 'focus',   function( evnt ){ $this.onFocus(   evnt, $this ) } );
         //Manipula o código ao digitar uma tecla
         objInput.addEventListener( 'keydown', function( evnt ){ $this.onKeyDown( evnt, $this ) } );
-        //@todo
-        //Evento que gerencia o tamanho dos campos ao digitar, ao colar um texto, ao apagar
+        //Evento que atualiza o valor do campo oculto ao realizar alterações
+        objInput.addEventListener( 'change',  function( evnt ){ $this.onChange(  evnt, $this ) } );
+    },
+
+
+    /*
+     * getCurrentValue()
+     * Pega o valor atual da coordenada
+     *
+     * @version 0.1 24/01/2017
+     *
+     * @param objInput
+     */
+    //@todo
+    //getCurrentValue : function(){}
+
+
+
+    /*
+     * onChange()
+     * Atualiza o valor do campo oculto ao alterar os campos criados
+     *
+     * @version 0.1 24/01/2017
+     *
+     * @param
+     */
+    onChange : function( evnt, $this ){
+        var $container  =   evnt.target.parentNode;
+        var $children   =   $container.children;
+        var $input      =   $container.previousSibling;
+        var strCoord    =   '';
+
+        //pr(evnt.target);
+
+        for( i = 0; i < $children.length; i++ ){
+            if( $children[i].tagName == 'INPUT' || $children[i].tagName == 'SELECT' ){
+                pr(typeof $children[i].value)
+                strCoord += ( typeof $children[i].value == 'undefined' ? '0' : $children[i].value ) + ' ';
+            }
+        }
+
+        //pr(strCoord);
+        pr($input.value)
+        //pr($this.stringToDecimal( strCoord ));
+        $input.value = $this.stringToDecimal( strCoord );
     },
 
     /*
@@ -258,8 +301,9 @@ var coords = {
      */
     calculateWidths : function( evnt ){
         if( this.initialOptions.recalculateWidth !== true ) return;
-        pixelsBychars = this.initialOptions.pixelsBychars || 8;
 
+
+        var pixelsBychars = this.initialOptions.pixelsBychars || 8;
         var parentWidth   = evnt.target.parentNode.style.width;
         var children = evnt.target.parentNode.children;
         var size = 10;
