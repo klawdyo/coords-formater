@@ -63,19 +63,19 @@ Spaces between parts|*true*|*boolean*
 
 Description|Default Value|Type
 ---|---|---
-Degree component indicator|*true*|*boolean*
+Degree component indicator|*°*|*string*
 
 ##minuteIndicator
 
 Description|Default Value|Type
 ---|---|---
-Minute component indicator|*true*|*boolean*
+Minute component indicator|*'*|*string*
 
 ##secondIndicator
 
 Description|Default Value|Type
 ---|---|---
-Second component indicator|*true*|*boolean*
+Second component indicator|*"*|*string*
 
 ##showSign
 
@@ -94,14 +94,14 @@ Configure to show compass direction at end|*true*|*boolean*
 
 Description|Default Value|Type
 ---|---|---
-Last component's decimal separator|*true*|*boolean*
+Last component's decimal separator|*.*|*string*
 
 
 ##decimalPlaces
 
 Description|Default Value|Type
 ---|---|---
-Number of decimal places|*true*|*boolean*
+Number of decimal places|*5*|*integer*
 
 
 #Methods
@@ -109,10 +109,11 @@ Number of decimal places|*true*|*boolean*
 ##coords.init( selector [, options ] )
 Starting the library
 
-**selector** `string` *Selector in a format accepted by `document.querySelectorAll()`*
-
-**options** *(object) Optional*
-Configuration object
+###Parameters
+Name|Type|Optional|Description
+---|---|---|---
+selector|string|required|Selector in a format accepted by `document.querySelectorAll()`
+options|object|Optional|Configuration object
 
 ###Example
 
@@ -123,8 +124,12 @@ coords.parse('S17 33 08.352')
 */
 ```
 
-##coords.parse( string )
+##coords.parse( coordinate )
 Extract coordinates components from passed string
+
+Name|Type|Optional|Description
+---|---|---|---
+coordinate|string|required|Selector in a format accepted by `document.querySelectorAll()`
 
 ###Example
 
@@ -162,11 +167,10 @@ coords.parse('S17 33 08.352')
 ##coords.convert( coordinate [ , options ] )
 Convert `cordinate` to other format according `options`
 
-**coordinate** *(string)*
-Selector in a format accepted by `document.querySelectorAll()`
-
-**options** *(object) Optional*
-Configuration object
+Name|Type|Optional|Description
+---|---|---|---
+coordinate|string|required|Selector in a format accepted by `document.querySelectorAll()`
+options|JSON object|optional|Configuration object
 
 ###Example
 
