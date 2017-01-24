@@ -66,60 +66,49 @@ Show seconds. False if minutes is false too
 ##spaces   
 Spaces between parts
 
-**default** `*true*` **type** *boolean*
+**default** `true` **type** `boolean`
 
 ##degreeIndicator
 Degree component indicator
 
-**default** `*°`* **type** `*string*`
+**default** `°`* **type** `string`
 
 ##minuteIndicator
 Minute component indicator
 
-**default** `*'*`  **type** `*string*`
+**default** `'`  **type** `string`
 
 ##secondIndicator
 Second component indicator
 
-**default** *"*
-
-**type** *string*
+**default** `"` **type** `string`
 
 ##showSign
 Configure to show sign at start
 
-**default** *false*
-
-**type** *boolean*
+**default** `false` **type** `boolean`
 
 ##showCompassDirection
 Configure to show compass direction at end
 
-**default** *true*
-
-**type** *boolean*
+**default** `true` **type** `boolean`
 
 ##decimalSeparator
 Last component's decimal separator
 
-**default** *.*
-
-**type** *string*
+**default** `.`  **type** `string`
 
 ##decimalPlaces
 Number of decimal places
 
-**default** *5*
-
-**type** *integer*
+**default** `5` **type** `integer`
 
 #Methods
 
 ##coords.init( selector [, options ] )
 Starting the library
 
-**selector** *(string)*
-Selector in a format accepted by `document.querySelectorAll()`
+**selector** `string` *Selector in a format accepted by `document.querySelectorAll()`*
 
 **options** *(object) Optional*
 Configuration object
