@@ -35,7 +35,8 @@ This library is intended to facilitate the use of coordinates in HTML forms, mak
     $('input[type="coords"]').coords({ degrees:true, minutes: false });
 ```
 
-#Options
+#Properties
+The `properties` below can be used to configurate some methods, like `init()` and `convert()`.
 
 ##degrees
 Description|Default Value|Type
@@ -107,7 +108,7 @@ Number of decimal places|*5*|*integer*
 #Methods
 
 ##coords.init( selector [, options ] )
-Starting the library
+Starting the library. This method hides the main input and create new HTML fields according `options` to help handling coordinates information.
 
 ###Parameters
 Name|Type|Optional|Description
