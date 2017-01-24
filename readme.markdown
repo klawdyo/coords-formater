@@ -39,57 +39,68 @@ This library is intended to facilitate the use of coordinates in HTML forms, mak
 
 ##degrees
 Description|Default Value|Type
+---|---|---
 Show degrees. Always true|*true*|*boolean*
 
 ##minutes
 Description|Default Value|Type
+---|---|---
 Show minutes|*true*|*boolean*
 
 ##seconds
 
 Description|Default Value|Type
+---|---|---
 Show seconds. False if minutes is false too|*true*|*boolean*
 
 ##spaces   
 
 Description|Default Value|Type
+---|---|---
 Spaces between parts|*true*|*boolean*
 
 ##degreeIndicator
 
 Description|Default Value|Type
+---|---|---
 Degree component indicator|*true*|*boolean*
 
 ##minuteIndicator
 
 Description|Default Value|Type
+---|---|---
 Minute component indicator|*true*|*boolean*
 
 ##secondIndicator
 
 Description|Default Value|Type
+---|---|---
 Second component indicator|*true*|*boolean*
 
 ##showSign
 
 Description|Default Value|Type
+---|---|---
 Configure to show sign at start|*true*|*boolean*
 
 ##showCompassDirection
 
 Description|Default Value|Type
+---|---|---
 Configure to show compass direction at end|*true*|*boolean*
 
 
 ##decimalSeparator
 
 Description|Default Value|Type
+---|---|---
 Last component's decimal separator|*true*|*boolean*
 
 
 ##decimalPlaces
 
 Description|Default Value|Type
+---|---|---
 Number of decimal places|*true*|*boolean*
 
 
