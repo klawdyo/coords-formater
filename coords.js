@@ -250,20 +250,6 @@ var coords = {
         objInput.addEventListener( 'change',  function( evnt ){ $this.onChange(  evnt, $this ) } );
     },
 
-
-    /*
-     * getCurrentValue()
-     * Pega o valor atual da coordenada
-     *
-     * @version 0.1 24/01/2017
-     *
-     * @param objInput
-     */
-    //@todo
-    //getCurrentValue : function(){}
-
-
-
     /*
      * onChange()
      * Atualiza o valor do campo oculto ao alterar os campos criados
@@ -475,6 +461,20 @@ var coords = {
     },
 
     /*
+     * getCurrentValue()
+     * Pega o valor atual da coordenada
+     *
+     * @version 0.1 24/01/2017
+     *
+     * @param objInput
+     */
+    //@todo
+    //getCurrentValue : function( objInput, options ){
+
+    //}
+
+
+    /*
      * normalize
      * Tenta deixar a expressão em um formato padronizado
      * - Remove espaços duplicados
@@ -599,8 +599,8 @@ var coords = {
      *
      * @example
      *
-     * @param strCoord
-     * @param options
+     * @param string strCoord Coordenada em qualquer formato de texto
+     * @param object options  Objeto de configuração do retorno da conversão
      * @return
      */
     convert: function( strCoord, options ){
@@ -634,9 +634,43 @@ var coords = {
         + ( newOptions.showCompassDirection && parts.compass ? spaces +  parts.compass  : '' )
         // + ( newOptions.showCompassDirection && parts.compass ? spaces + newOptions.compassDirections.indexOf( parts.compass ) : '' )
         //   //substituindo os pontos e vírgulas pela opção definida
-    ).replace( /[,\.]+/g , newOptions.decimalSeparator ).trim();
+        ).replace( /[,\.]+/g , newOptions.decimalSeparator ).trim();
       //);
     },
+
+    /*
+     * inputObjectToString()
+     * A partir do objeto input original, devolve o valor dos sub inputs no formato definido em options
+     *
+     * @version
+     *
+     * @param (object|input) input Input object ou seletor que localize este input. O seletor precisa levar a somente um objeto
+     * @param
+     * @return
+     */
+    inputObjectToString : function( input, options ){
+        //Convertendo para objeto caso "input" seja um seletor
+        input = ( typeof input == 'string' ) ? document.querySelector( input ) : input ;
+
+        //Se é um objeto de um input
+        if( input.tagName !== 'INPUT' ) { console.log( '"input" parameter isn\'t a valid input object' ); return false; }
+
+        var $container = input.nextSibling;
+        var $children  = $container.children;
+
+        var strCoord;
+
+        for( i = 0; i < $children.length; i++ ){
+            if( $children[i] !== 'INPUT' || $children[i] !== 'SELECT' ) continue;
+
+            strCoord += $children[i] + ' ';
+        }
+
+        return this.convert( strCoord, options );
+    },
+
+
+
 };
 
 
