@@ -4,8 +4,9 @@ function pr( e ){ console.log(e); }
  * formatar e exibir latitudes e longitudes.
  *
  * @todo
- *
- *
+ * - Verificar se um campo maior tem valor com decimal, mesmo que os campos menores
+ *   estejam preenchidos.
+ * - Adicionar validações
  */
 var coords = {
     /************************************************************
