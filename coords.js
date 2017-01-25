@@ -172,17 +172,18 @@ var coords = {
      * a biblioteca com um valor predefinido
      *
      * @version 0.1 23/01/2017 Initial
+     *          0.2 25/01/2017 O primeiro parâmetro agora recebe o objeto do input
      *
-     * @param object $objContainer Objeto do container dos campos
-     * @param string strCoord
+     * @param object $objInput Objeto do input original
+     * @param string strCoord Coordenada que será parseada e colocada nos sub-campos
      * @return void
      */
-    batchValues : function( $objContainer, strCoord ){
+    batchValues : function( $objInput, strCoord ){
         var parse    = this.parse( strCoord );
         if( parse.length < 6 ) return false;
-        pr(parse)
-        pr(this.initialOptions.decimalPlaces)
-        var children = $objContainer.children;
+        //pr(parse)
+        //pr(this.initialOptions.decimalPlaces)
+        var children = $objInput.nextSibling.children
 
         for( i = 0; i < children.length; i++ ){
 
@@ -375,7 +376,7 @@ var coords = {
 
 
 
-        if( $this.batchValues( evnt.target.parentNode, pastedData ) === false ){
+        if( $this.batchValues( evnt.target.parentNode.previousSibling, pastedData ) === false ){
             alert( 'O texto \n\n'+  pastedData +'\n\nNão é uma coordenada válida' )
         }
 
