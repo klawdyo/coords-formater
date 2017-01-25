@@ -3,7 +3,7 @@ function pr( e ){ console.log(e); }
  * Biblioteca que converte campos html em campos específicos para armazenar,
  * formatar e exibir latitudes e longitudes.
  *
- *
+ * @todo
  *
  *
  */
@@ -27,16 +27,14 @@ var coords = {
      *      //Usando o nome dos campos
      *      coords.init( '[name="latitude"], [name="longitude"]' )
      *
-     *
-     *
      * @param string strSelector Seletor dos inputs que receberão a transformação.
      *                           O seletor precisa ser compatível com document.querySelectorAll()
-     * @param object options
+     * @param object options Configurações de exibição dos campos
      * @return
      */
     init: function( strSelector, options ){
         var $obj = this;
-        var newOptions = this.options( options );
+        this.initialOptions = this.options( options );
 
         document.querySelectorAll( strSelector ).forEach( function( objInput ){
             $obj.makeAllEverythingAndOthers( objInput );
@@ -61,6 +59,8 @@ var coords = {
      *          0.2 22/01/2017 Removido jquery
      *          0.3 23/01/2017 Removido o parâmetro options. O método recebe
      *                         direto da propriedade da classe.
+     *          0.4 25/01/2017 Adicionado suporte ao auto preenchimento quando o
+     *                         valor já existir no campo
      *
      * @example
      *
@@ -103,6 +103,8 @@ var coords = {
             this.createSelect( objContainer, inputName, 'compass', ['', 'E', 'N', 'S', 'W' ] );
         }
 
+        //Ativando o preenchimento dos campos
+        this.setInitialValues( objInput );
 
     },
 
@@ -209,12 +211,55 @@ var coords = {
         return true;
     },
 
+    /*
+    * setInitialValues()
+    * Verifica se o campo original possui um valor prévio e atualiza os sub-campos
+    * para receber a informação.
+    *
+    * @version 0.1 25/01/2017 Initial
+    *
+    * @param
+    */
+    setInitialValues : function( objInput ){
+        if( typeof objInput == 'object' && objInput.tagName == 'INPUT' && objInput.value !== '' ){
+            this.batchValues( objInput, objInput.value );
+            this.calculateWidths( objInput );
+        }
+    },
+
+    /*
+    * Recalcula o tamanho dos campos, sendo 8px para cada caractere
+    *
+    * @version 0.1 23/01/2017 Initial
+    *          0.2 25/01/2017 O parâmetro foi alterado do evento para o input original
+    *
+    * @param object objInput Input original
+    * @return void
+    */
+    calculateWidths : function( objInput ){
+        if( this.initialOptions.recalculateWidth !== true ) return;
+
+        var pixelsBychars = this.initialOptions.pixelsBychars || 8;
+        var children = objInput.nextSibling.children;
+
+        for( i = 0; i < children.length; i++ ){
+            if( children[i].getAttribute( 'class' ).search( 'coords-input' )  !== -1 ){
+                children[i].style.width = ( ( children[i].value.length + 1 ) * pixelsBychars )  + 'px' ;
+            }
+            else if(children[i].getAttribute( 'class' ).search( 'coords-select' )  !== -1 ){
+                children[i].style.width = '35px';
+            }
+        }
+    },
+
+
     /************************************************************
      *
      *  EVENTS HANDLER
      *  Gerencia os eventos dos campos criados
      *
      ************************************************************/
+
 
 
     /*
@@ -277,33 +322,6 @@ var coords = {
         $input.setAttribute('value', $this.stringToDecimal( strCoord ) );
     },
 
-    /*
-     * Recalcula o tamanho dos campos, sendo 8px para cada caractere
-     *
-     * @version 0.1 23/01/2017 Initial
-     *
-     */
-    calculateWidths : function( evnt ){
-        if( this.initialOptions.recalculateWidth !== true ) return;
-
-
-        var pixelsBychars = this.initialOptions.pixelsBychars || 8;
-        var parentWidth   = evnt.target.parentNode.style.width;
-        var children = evnt.target.parentNode.children;
-        var size = 10;
-        //   W120.8362
-        for( i = 0; i < children.length; i++ ){
-            if( children[i].getAttribute( 'class' ).search( 'coords-input' )  !== -1 ){
-                children[i].style.width = ( ( children[i].value.length + 1 ) * pixelsBychars )  + 'px' ;
-            }
-            else if(children[i].getAttribute( 'class' ).search( 'coords-select' )  !== -1 ){
-                children[i].style.width = '35px';
-            }
-        }
-
-
-    },
-
 
     /*
      * onKeydown()
@@ -311,7 +329,8 @@ var coords = {
      *
      * @version 0.1 22/01/2017 Initial
      *          0.2 23/01/2017 Adicionado o objeto da classe como parâmetro
-
+     *          0.3 25/01/2017 Repassa o objeto do input original como parâmetro de calculateWidths()
+     *
      *
      * @param object evnt Objeto do evento
      * @param object $this Objeto da classe
@@ -320,7 +339,7 @@ var coords = {
      */
     onKeydown : function( evnt, $this ){
         if( evnt.target.tagName == 'INPUT' ){
-            $this.calculateWidths( evnt );
+            $this.calculateWidths( evnt.target.parentNode.previousSibling );
         }
     },
 
@@ -351,16 +370,10 @@ var coords = {
      * - Lê o valor, normaliza, dá um parse e separa os componentes nos
      *   campos de acordo com o formato desejado.
      *
-     * @todo O valor colado precisa de adequar ao padrão que está definido.
-     *       Precisa verificar quais os campos para definir o padrão e fazer
-     *       o arredondamento correto, pois se, por exemplo, não existir o
-     *       campo dos segundos, então os minutos devem ser formatado como
-     *       float para receber a rebarba dos segundos
-     *
-     *
      * @version 0.1 22/01/2017 Initial
      *
-     * @param object evnt Objeto do evento
+     * @param object evnt  Objeto do evento
+     * @param object $this Objeto da classe
      * @return void
      */
     onPaste : function( evnt, $this ){
@@ -373,8 +386,6 @@ var coords = {
         // Get pasted data via clipboard API
         clipboardData = evnt.clipboardData || window.clipboardData;
         pastedData = clipboardData.getData('Text');
-
-
 
         if( $this.batchValues( evnt.target.parentNode.previousSibling, pastedData ) === false ){
             alert( 'O texto \n\n'+  pastedData +'\n\nNão é uma coordenada válida' )
