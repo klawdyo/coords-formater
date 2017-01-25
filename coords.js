@@ -1,14 +1,57 @@
 function pr( e ){ console.log(e); }
-/*
- * Biblioteca que converte campos html em campos específicos para armazenar,
- * formatar e exibir latitudes e longitudes.
- *
- * @todo
- * - Verificar se um campo maior tem valor com decimal, mesmo que os campos menores
- *   estejam preenchidos.
- * - Adicionar validações. Ex.: Se os minutos ou segundos são maiores que 60.
- */
+/*******************************************************************************
+   Biblioteca que converte campos html em campos específicos para armazenar,
+   formatar e exibir latitudes e longitudes.
+
+   -----------------------------------------------------------------------------
+   COPYRIGHT
+   -----------------------------------------------------------------------------
+   EXAMPLES
+
+   coords.init( 'input.coords' );
+
+   -----------------------------------------------------------------------------
+   TODO
+   - Verificar se um campo maior tem valor com decimal, mesmo que os campos
+     menores estejam preenchidos.
+   - Adicionar validações. Ex.: Se os minutos ou segundos são maiores que 60.
+   - Criar possibilidade de alterar o formato enviado para o servidor.
+        - Pode criar uma propriedade com o nome onSaveFormat que
+        armazenaria o formato de salvamento do dados. Esse formato poderia ser
+        cadastrado com um método setSaveFormat() recebendo as configurações
+        baseada em initialOptions e no método options(). Esse valor será
+        modificado ao alterar os dados e a funçãoo onChange fará essa verificação
+        ao alterar.
+
+ *******************************************************************************/
 var coords = {
+
+    /*
+     * @var
+     * Opções gerais, usado para exibição dos inputs e para conversão entre formatos
+     */
+    initialOptions : {
+        'spaces'                : true,  //Spaces between parts
+        'degrees'               : true,  //Show degrees. Always true
+        'minutes'               : true,  //Show minutes.
+        'seconds'               : true,  //Show seconds. False if minutes is false too
+        'degreeIndicator'       : '°',   //Degree component indicator
+        'minuteIndicator'       : "'",   //Minute component indicator
+        'secondIndicator'       : '"',   //Second component indicator
+        'showSign'              : false, //Configure to show sign at start
+        'showCompassDirection'  : true,  //Configure to show compass direction at end
+        'decimalSeparator'      : '.',   //Last component's decimal separator
+        'decimalPlaces'         : 5, //Arredondar o último componente para um número de casas definido
+        //@todo: permitir renomear as direções exibidas
+        //'compassDirections'     : { 'north': 'N', 'east': 'E', 'west': 'W', 'south':'S' }, //change compass directions at exibition
+        //@todo: Exibir um ícone à direita do campo que permita abrir uma popup e selecionar a localização no mapa
+        //'showIcon'              : false, //Show 'openMap' icon at right of input
+
+        //Recalculate widths
+        recalculateWidth       : true,
+        pixelsBychars          : 8,
+
+    },
     /************************************************************
      *
      *  BASICS
@@ -399,31 +442,6 @@ var coords = {
     *
     ************************************************************/
 
-    /*
-     * @var
-     * Opções gerais, usado para exibição dos inputs e para conversão entre formatos
-     */
-    initialOptions : {
-        'spaces'                : true,  //Spaces between parts
-        'degrees'               : true,  //Show degrees. Always true
-        'minutes'               : true,  //Show minutes.
-        'seconds'               : true,  //Show seconds. False if minutes is false too
-        'degreeIndicator'       : '°',   //Degree component indicator
-        'minuteIndicator'       : "'",   //Minute component indicator
-        'secondIndicator'       : '"',   //Second component indicator
-        'showSign'              : false, //Configure to show sign at start
-        'showCompassDirection'  : true,  //Configure to show compass direction at end
-        'decimalSeparator'      : '.',   //Last component's decimal separator
-        'decimalPlaces'         : 5, //Arredondar o último componente para um número de casas definido
-        //@todo: permitir renomear as direções exibidas
-        //'compassDirections'     : { 'north': 'N', 'east': 'E', 'west': 'W', 'south':'S' }, //change compass directions at exibition
-        //@todo: Exibir um ícone à direita do campo que permita abrir uma popup e selecionar a localização no mapa
-        //'showIcon'              : false, //Show 'openMap' icon at right of input
-
-        //Recalculate widths
-        recalculateWidth       : true,
-        pixelsBychars          : 8,
-    },
 
     /*
      * Mescla as opções de acordo com as regras definidas para evitar distorções.
