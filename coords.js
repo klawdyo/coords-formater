@@ -22,20 +22,21 @@ var coords = {
      *          0.2 22/01/2017 Removido jQuery
      *
      * @example
+     *      //Usando uma class
+     *      coords.init( '.coordinates' );
+     *      //Usando o nome dos campos
+     *      coords.init( '[name="latitude"], [name="longitude"]' )
      *
      *
-     * @param string strSelector Seletor que leve a um input que receberá a transformação
+     *
+     * @param string strSelector Seletor dos inputs que receberão a transformação.
+     *                           O seletor precisa ser compatível com document.querySelectorAll()
      * @param object options
      * @return
      */
     init: function( strSelector, options ){
         var $obj = this;
         var newOptions = this.options( options );
-
-        //Loop pelos elementos do seletor
-        // jQuery( strSelector ).each( function( i , el ){
-        //     $obj.makeAllEverythingAndOthers( jQuery( el ) , newOptions )
-        // } );
 
         document.querySelectorAll( strSelector ).forEach( function( objInput ){
             $obj.makeAllEverythingAndOthers( objInput );
@@ -106,8 +107,8 @@ var coords = {
     },
 
     /*
+     * createElement()
      * Cria os elementos com javascript puro
-     *
      *
      * @version 0.1 22/01/2017 Initial
      *
@@ -136,8 +137,8 @@ var coords = {
 
 
     /*
-     * Cria os elementos com javascript puro
-     *
+     * createSelect()
+     * Cria os selects
      *
      * @version 0.1 23/01/2017 Initial
      *
@@ -155,20 +156,18 @@ var coords = {
 
         objContainer.appendChild( select );
 
-
         for(var i = 0; i < data.length; i++) {
-            //pr(i)
             var opt       = document.createElement('option');
             opt.innerHTML = data[i];
             opt.value     = data[i];
             select.appendChild(opt);
         }
 
-
         this.eventsHandler( select );
     },
 
     /*
+     * batchValues()
      * Adiciona valores a todos os campos de uma vez. Usado em onPaste e ao carregar
      * a biblioteca com um valor predefinido
      *
@@ -204,7 +203,6 @@ var coords = {
                     children[i].value = Number.isInteger( parse.seconds ) === true ? parse.seconds : parse.seconds.toFixed( this.initialOptions.decimalPlaces );
                     break;
             }
-
         }
 
         return true;
@@ -216,6 +214,8 @@ var coords = {
      *  Gerencia os eventos dos campos criados
      *
      ************************************************************/
+
+
     /*
      * Gera os eventos
      *
@@ -245,7 +245,7 @@ var coords = {
         //Manipula o código que seleciona todo o texto ao entrar
         objInput.addEventListener( 'focus',   function( evnt ){ $this.onFocus(   evnt, $this ) } );
         //Manipula o código ao digitar uma tecla
-        objInput.addEventListener( 'keydown', function( evnt ){ $this.onKeyDown( evnt, $this ) } );
+        objInput.addEventListener( 'keydown', function( evnt ){ $this.onKeydown( evnt, $this ) } );
         //Evento que atualiza o valor do campo oculto ao realizar alterações
         objInput.addEventListener( 'change',  function( evnt ){ $this.onChange(  evnt, $this ) } );
     },
@@ -254,7 +254,8 @@ var coords = {
      * onChange()
      * Atualiza o valor do campo oculto ao alterar os campos criados
      *
-     * @version 0.1 24/01/2017
+     * @version 0.1 24/01/2017 Initial
+     *          0.2 25/01/2017 Correção na atualização do valor do campo original
      *
      * @param
      */
@@ -268,15 +269,11 @@ var coords = {
 
         for( i = 0; i < $children.length; i++ ){
             if( $children[i].tagName == 'INPUT' || $children[i].tagName == 'SELECT' ){
-                pr(typeof $children[i].value)
                 strCoord += ( typeof $children[i].value == 'undefined' ? '0' : $children[i].value ) + ' ';
             }
         }
 
-        //pr(strCoord);
-        pr($input.value)
-        //pr($this.stringToDecimal( strCoord ));
-        $input.value = $this.stringToDecimal( strCoord );
+        $input.setAttribute('value', $this.stringToDecimal( strCoord ) );
     },
 
     /*
@@ -308,7 +305,7 @@ var coords = {
 
 
     /*
-     * onKeyDown()
+     * onKeydown()
      * Ao pressionar uma tecla
      *
      * @version 0.1 22/01/2017 Initial
@@ -320,7 +317,7 @@ var coords = {
      * @return void
      *
      */
-    onKeyDown : function( evnt, $this ){
+    onKeydown : function( evnt, $this ){
         if( evnt.target.tagName == 'INPUT' ){
             $this.calculateWidths( evnt );
         }
@@ -445,9 +442,10 @@ var coords = {
      * - minute é true caso seconds também o seja
      * @version 0.1 22/01/2017 Initial
      *          0.2 23/01/2017 Mescla as opções definidas dentro das originais
+     *          0.3 25/01/2017 Não mescla mais as opções originais
      *
-     * @param object options Opções que serão mescladas com as opções iniciais
-     * @return
+     * @param  object options Opções que serão mescladas com as opções iniciais
+     * @return object
      */
     options : function( options ){
         if ( typeof options == 'undefined' ) return this.initialOptions;
@@ -457,22 +455,10 @@ var coords = {
         //seconds is false if minutes is false too
         if ( options.minutes == false ) options.seconds = false;
         //return
-        return this.initialOptions = Object.assign( {}, this.initialOptions, options );
+        options = Object.assign( {}, this.initialOptions, options );
+
+        return options;
     },
-
-    /*
-     * getCurrentValue()
-     * Pega o valor atual da coordenada
-     *
-     * @version 0.1 24/01/2017
-     *
-     * @param objInput
-     */
-    //@todo
-    //getCurrentValue : function( objInput, options ){
-
-    //}
-
 
     /*
      * normalize
@@ -580,7 +566,7 @@ var coords = {
      *
      * @version 0.1 22/01/2017 Initial
      *
-     * @param strCoord
+     * @param string strCoord
      * @return
      */
     stringToDecimal: function( strCoord ){
@@ -596,61 +582,34 @@ var coords = {
      * Converte uma coordenada em float para o formado DD,DDD°
      *
      * @version 0.1 22/01/2017 Initial
+     *          0.2 25/01/2017 Conversão realizada por parseObjectToString()
      *
      * @example
      *
      * @param string strCoord Coordenada em qualquer formato de texto
      * @param object options  Objeto de configuração do retorno da conversão
-     * @return
+     * @return string
      */
     convert: function( strCoord, options ){
-        // newOptions = Object.assign( {} , this.options, options);
-        var newOptions = this.options( options );
-
-        var parts = this.parse( strCoord );
-        //pr(newOptions);
-        // pr(parts);
-        if( newOptions.seconds == false ) {
-            parts.minutes = parts.minutes + ( parts.seconds / 60 );
-            parts.seconds = false;
-        }
-        // pr(parts)
-        if( newOptions.minutes == false ) {
-            parts.degrees = parts.degrees + ( parts.minutes / 60 );
-            parts.minutes = false;
-        }
-        var spaces = newOptions.spaces ? ' ' : '';
-
-        return (
-          //Exibindo o sinal caso a opção esteja definida
-            ( newOptions.showSign  ? parts.signal + spaces : '' )
-          //exibindo a parte dos graus junto com a opção do indicador
-          + parts.degrees + newOptions.degreeIndicator
-        //   //Exibindo a parte dos minutos
-          + ( newOptions.minutes == true ? spaces + parts.minutes + newOptions.minuteIndicator : '' )
-        //   //Exibindo a parte dos segundos
-          + ( newOptions.seconds == true ? spaces + parts.seconds + newOptions.secondIndicator : '' )
-        //   //imprimindo a direção da bússola
-        + ( newOptions.showCompassDirection && parts.compass ? spaces +  parts.compass  : '' )
-        // + ( newOptions.showCompassDirection && parts.compass ? spaces + newOptions.compassDirections.indexOf( parts.compass ) : '' )
-        //   //substituindo os pontos e vírgulas pela opção definida
-        ).replace( /[,\.]+/g , newOptions.decimalSeparator ).trim();
-      //);
+        return this.parseObjectToString( this.parse( strCoord ), options );
     },
 
     /*
-     * inputObjectToString()
+     * inputToString()
      * A partir do objeto input original, devolve o valor dos sub inputs no formato definido em options
      *
-     * @version
+     * @version 0.1 25/01/2017 Initial
      *
      * @param (object|input) input Input object ou seletor que localize este input. O seletor precisa levar a somente um objeto
-     * @param
-     * @return
+     * @param object options Opções para o retorno da string
+     * @return string Contendo os dados do objeto no formato definido em options
      */
-    inputObjectToString : function( input, options ){
+    inputToString : function( input, options ){
         //Convertendo para objeto caso "input" seja um seletor
         input = ( typeof input == 'string' ) ? document.querySelector( input ) : input ;
+
+        //Ajustando as opções
+        options = this.options(options);
 
         //Se é um objeto de um input
         if( input.tagName !== 'INPUT' ) { console.log( '"input" parameter isn\'t a valid input object' ); return false; }
@@ -658,17 +617,79 @@ var coords = {
         var $container = input.nextSibling;
         var $children  = $container.children;
 
-        var strCoord;
+        var strCoord = '';
 
         for( i = 0; i < $children.length; i++ ){
-            if( $children[i] !== 'INPUT' || $children[i] !== 'SELECT' ) continue;
-
-            strCoord += $children[i] + ' ';
+            if( $children[i].tagName == 'INPUT'){
+                strCoord += ( $children[i].value == '' ? 0 : $children[i].value ) ;
+            }
+            else if( $children[i].tagName == 'SELECT' && $children[i].value !== "" ){
+                strCoord += $children[i].value;
+            }
+            else{
+                continue;
+            }
+            strCoord += ' ';
         }
 
         return this.convert( strCoord, options );
     },
 
+    /*
+     * parseObjectToString()
+     * A partir do objeto retornado por parse(), retorna uma string de acordo com
+     * o formato definido em options
+     *
+     * @version 0.1 25/01/2017 Initial
+     *
+     * @param  object objParse Objeto retornado por parse()
+     * @param  object options  Objeto de configurações
+     * @return
+     */
+    parseObjectToString : function( objParse, options ){
+        // newOptions = Object.assign( {} , this.options, options);
+        var newOptions = this.options( options );
+
+        //pr(newOptions);
+        // pr(parts);
+        if( newOptions.seconds == false ) {
+            objParse.minutes = objParse.minutes + ( objParse.seconds / 60 );
+            objParse.seconds = false;
+        }
+        // pr(parts)
+        if( newOptions.minutes == false ) {
+            objParse.degrees = objParse.degrees + ( objParse.minutes / 60 );
+            objParse.minutes = false;
+        }
+        var spaces = newOptions.spaces ? ' ' : '';
+
+        return (
+          //Exibindo o sinal caso a opção esteja definida
+            ( newOptions.showSign  ? objParse.signal + spaces : '' )
+          //exibindo a parte dos graus junto com a opção do indicador
+          + objParse.degrees + newOptions.degreeIndicator
+        //   //Exibindo a parte dos minutos
+          + ( newOptions.minutes == true ? spaces + objParse.minutes + newOptions.minuteIndicator : '' )
+        //   //Exibindo a parte dos segundos
+          + ( newOptions.seconds == true ? spaces + objParse.seconds + newOptions.secondIndicator : '' )
+        //   //imprimindo a direção da bússola
+        + ( newOptions.showCompassDirection && objParse.compass ? spaces +  objParse.compass  : '' )
+        // + ( newOptions.showCompassDirection && objParse.compass ? spaces + newOptions.compassDirections.indexOf( objParse.compass ) : '' )
+        //   //substituindo os pontos e vírgulas pela opção definida
+        ).replace( /[,\.]+/g , newOptions.decimalSeparator ).trim();
+
+    },
+
+    /*
+     * func()
+     * descrição
+     *
+     * @version
+     *
+     * @param
+     * @param
+     * @return
+     */
 
 
 };
