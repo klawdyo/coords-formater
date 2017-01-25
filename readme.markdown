@@ -21,7 +21,7 @@ This library is intended to facilitate the use of coordinates in HTML forms, mak
 
 ###Pure Javascript
 
-```javascript 
+```javascript
     coords.init( 'input[type="coords"]' );
 ```
 
@@ -36,14 +36,17 @@ This library is intended to facilitate the use of coordinates in HTML forms, mak
 ```
 
 #Properties
+
 The `properties` below can be used to configurate some methods, like `init()` and `convert()`.
 
 ##degrees
+
 Description|Default Value|Type
 ---|---|---
 Show degrees. Always true|*true*|*boolean*
 
 ##minutes
+
 Description|Default Value|Type
 ---|---|---
 Show minutes|*true*|*boolean*
@@ -108,9 +111,11 @@ Number of decimal places|*5*|*integer*
 #Methods
 
 ##coords.init( selector [, options ] )
+
 Starting the library. This method hides the main input and create new HTML fields according `options` to help handling coordinates information.
 
 ###Parameters
+
 Name|Type|Optional|Description
 ---|---|---|---
 selector|string|required|Selector in a format accepted by `document.querySelectorAll()`
@@ -119,16 +124,24 @@ options|object|Optional|Configuration object
 ###Example
 
 ```javascript
-coords.parse('S17 33 08.352')
+//Generate sub-fields with default configs
+coords.init('input.coords')
+//or
+//Generate sub-fields with custom configs
+coords.init('input.coords', { showSign:true, showCompassDirection: false })
 /*Returns
     class object
 */
 ```
 
+On form submit, the coordinate's format send to server backend is [+/-] dd.dddd. This values is update on each change in sub-fields.
+
 ##coords.parse( coordinate )
+
 Extract coordinates components from passed string
 
 ###Parameters
+
 Name|Type|Optional|Description
 ---|---|---|---
 coordinate|string|required|Selector in a format accepted by `document.querySelectorAll()`
@@ -160,16 +173,18 @@ coords.parse('S17 33 08.352')
 - -41 25.117
 - -41°25'
 - 41 N
-- 41°N 
+- 41°N
 - N41.092
 - 90S
 - -41°
 - +N41.092
 
 ##coords.convert( coordinate [ , options ] )
+
 Convert `cordinate` to other format according `options`
 
 ###Parameters
+
 Name|Type|Optional|Description
 ---|---|---|---
 coordinate|string|required|Selector in a format accepted by `document.querySelectorAll()`

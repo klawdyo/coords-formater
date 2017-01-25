@@ -6,7 +6,7 @@ function pr( e ){ console.log(e); }
  * @todo
  * - Verificar se um campo maior tem valor com decimal, mesmo que os campos menores
  *   estejam preenchidos.
- * - Adicionar validações
+ * - Adicionar validações. Ex.: Se os minutos ou segundos são maiores que 60.
  */
 var coords = {
     /************************************************************
@@ -106,7 +106,6 @@ var coords = {
 
         //Ativando o preenchimento dos campos
         this.setInitialValues( objInput );
-
     },
 
     /*
@@ -132,7 +131,6 @@ var coords = {
         this.eventsHandler( input );
 
         var span = document.createElement( 'SPAN' );
-        //<span class="coords-indicator coords-degrees">\°</span>
         span.setAttribute( 'class', 'coords-indicator coords-' + coordsType );
         span.innerHTML = indicator;
         objContainer.appendChild( span );
@@ -270,7 +268,7 @@ var coords = {
      *
      *** Eventos
      * @todo
-     * - aumenta o tamanho dos campos de acordo com os caracteres
+     * - [OK] aumenta o tamanho dos campos de acordo com os caracteres
      * - verifica se os minutos ou segundos são maiores que 60
      * - verifica se os graus são maiores que 180 (long), Lat vão até 90 (http://www.geomidpoint.com/latlon.html)
      *   converte para o formato definido
@@ -278,7 +276,7 @@ var coords = {
      *   para a área de transferência o valor formatado
      * - [OK] verifica ao colar um valor em qualquer campo e auto preenche os demais caso seja uma coordenda válida.
      * - [OK] seleciona todo o conteúdo ao entrar no campo
-     * - ao atualizar os campos, atualizar o valor do input oculto que será enviado
+     * - [OK] Ao atualizar os campos, atualizar o valor do input oculto que será enviado
      * - verificar se fica melhor usar campos P editáveis ao invés de novos campos de formulário. Os campos P ficariam melhor do que usar JavaScript pra ficar aumentando e diminuindo o tamanho dos input.
      *
      * @param object objInput Campo que receberá o evento
@@ -311,8 +309,6 @@ var coords = {
         var $children   =   $container.children;
         var $input      =   $container.previousSibling;
         var strCoord    =   '';
-
-        //pr(evnt.target);
 
         for( i = 0; i < $children.length; i++ ){
             if( $children[i].tagName == 'INPUT' || $children[i].tagName == 'SELECT' ){
@@ -379,7 +375,7 @@ var coords = {
      */
     onPaste : function( evnt, $this ){
         var clipboardData, pastedData;
-        //pr(obj)
+
         // Stop data actually being pasted into div
         evnt.stopPropagation();
         evnt.preventDefault();
@@ -391,24 +387,6 @@ var coords = {
         if( $this.batchValues( evnt.target.parentNode.previousSibling, pastedData ) === false ){
             alert( 'O texto \n\n'+  pastedData +'\n\nNão é uma coordenada válida' )
         }
-
-        //Elementos da coordenada
-        // pr(parse);
-        // //Se a coordenada não for reconhecida, exiba a mensagem de erro e encerre
-        // //Filhos do container
-        // var children  = evnt.target.parentNode.children;
-        // //Loop pelos filhos do container
-        // for ( i = 0; i < children.length; i++ ){
-        //     if( children[i].tagName == 'INPUT' || children[i].tagName == 'SELECT' ){
-        //         switch( children[i].getAttribute( 'data-coords-type' ) ){
-        //             case 'signal'  : children[i].value = parse.signal;  break;
-        //             case 'compass' : children[i].value = parse.compass; break;
-        //             case 'degrees' : children[i].value = parse.degrees; break;
-        //             case 'minutes' : children[i].value = parse.minutes; break;
-        //             case 'seconds' : children[i].value = parse.seconds; break;
-        //         }
-        //     }
-        // }
 
         //Recalcula os tamanhos
         $this.calculateWidths( evnt );
@@ -436,12 +414,11 @@ var coords = {
         'showSign'              : false, //Configure to show sign at start
         'showCompassDirection'  : true,  //Configure to show compass direction at end
         'decimalSeparator'      : '.',   //Last component's decimal separator
+        'decimalPlaces'         : 5, //Arredondar o último componente para um número de casas definido
         //@todo: permitir renomear as direções exibidas
         //'compassDirections'     : { 'north': 'N', 'east': 'E', 'west': 'W', 'south':'S' }, //change compass directions at exibition
         //@todo: Exibir um ícone à direita do campo que permita abrir uma popup e selecionar a localização no mapa
         //'showIcon'              : false, //Show 'openMap' icon at right of input
-        //[OK]@todo: Arredondar o último componente para um número de casas definido
-        'decimalPlaces'         : 5,
 
         //Recalculate widths
         recalculateWidth       : true,
@@ -523,8 +500,6 @@ var coords = {
      *          0.2 23/01/2017 Parse agora converte todos os valores para DMS,
      *                         independentemente da entrada.
      *
-     *
-     *
      * @param strCoord
      * @return
      */
@@ -563,7 +538,6 @@ var coords = {
             seconds = ( minutes - parseInt( minutes )  ) * 60;
             minutes = parseInt( minutes )
         }
-
 
         return {
             signal  : hasSignal,
@@ -660,16 +634,13 @@ var coords = {
      * @return
      */
     parseObjectToString : function( objParse, options ){
-        // newOptions = Object.assign( {} , this.options, options);
         var newOptions = this.options( options );
 
-        //pr(newOptions);
-        // pr(parts);
         if( newOptions.seconds == false ) {
             objParse.minutes = objParse.minutes + ( objParse.seconds / 60 );
             objParse.seconds = false;
         }
-        // pr(parts)
+
         if( newOptions.minutes == false ) {
             objParse.degrees = objParse.degrees + ( objParse.minutes / 60 );
             objParse.minutes = false;
@@ -686,27 +657,14 @@ var coords = {
         //   //Exibindo a parte dos segundos
           + ( newOptions.seconds == true ? spaces + objParse.seconds + newOptions.secondIndicator : '' )
         //   //imprimindo a direção da bússola
-        + ( newOptions.showCompassDirection && objParse.compass ? spaces +  objParse.compass  : '' )
+          + ( newOptions.showCompassDirection && objParse.compass ? spaces +  objParse.compass  : '' )
         // + ( newOptions.showCompassDirection && objParse.compass ? spaces + newOptions.compassDirections.indexOf( objParse.compass ) : '' )
         //   //substituindo os pontos e vírgulas pela opção definida
         ).replace( /[,\.]+/g , newOptions.decimalSeparator ).trim();
 
     },
 
-    /*
-     * func()
-     * descrição
-     *
-     * @version
-     *
-     * @param
-     * @param
-     * @return
-     */
-
-
 };
-
 
 /*
  * Cria a função do jQuery
@@ -720,6 +678,7 @@ if( window.jQuery ){
     } );
 
     $(function(){
+        //Exemplo
         //Inicia a biblioteca via jQuery
         // $('input[type="coords"]').coords( { minutes: true, seconds: true } );
         //$('input.coords').coords( { minutes: true, seconds: true } );
