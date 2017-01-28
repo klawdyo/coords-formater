@@ -49,3 +49,5 @@ Temporary Items
 #git
 .git/*
 .gitignore
+*.url
+*.txt

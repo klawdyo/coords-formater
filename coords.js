@@ -283,7 +283,7 @@ var coords = {
 
         var pixelsBychars = this.initialOptions.pixelsBychars || 8;
         var children = objInput.nextSibling.children;
-
+        pr(objInput)
         for( i = 0; i < children.length; i++ ){
             if( children[i].getAttribute( 'class' ).search( 'coords-input' )  !== -1 ){
                 children[i].style.width = ( ( children[i].value.length + 1 ) * pixelsBychars )  + 'px' ;
@@ -370,7 +370,7 @@ var coords = {
      * @version 0.1 22/01/2017 Initial
      *          0.2 23/01/2017 Adicionado o objeto da classe como parâmetro
      *          0.3 25/01/2017 Repassa o objeto do input original como parâmetro de calculateWidths()
-     *
+     *          0.4 28/01/2017 Só recalcula os tamanhos se digitar um número ou um ponto ou uma vírgula
      *
      * @param object evnt Objeto do evento
      * @param object $this Objeto da classe
@@ -378,7 +378,8 @@ var coords = {
      *
      */
     onKeydown : function( evnt, $this ){
-        if( evnt.target.tagName == 'INPUT' ){
+        //pr(evnt.keyCode);
+        if( evnt.target.tagName == 'INPUT' && ( evnt.keyCode >= 48 && evnt.keyCode <= 57 || evnt.keyCode == 188 || evnt.keyCode == 190 ) ){
             $this.calculateWidths( evnt.target.parentNode.previousSibling );
         }
     },
