@@ -108,6 +108,21 @@ Description|Default Value|Type
 Number of decimal places|*5*|*integer*
 
 
+
+##recalculateWidth
+
+Description|Default Value|Type
+---|---|---
+Sets if sub fields changes its widths onChange|*true*|*bool*
+
+
+##pasteErrorMessage
+
+Description|Default Value|Type
+---|---|---
+Message showed onPaste invalid coordinate|*The pasted text isn't a valid coordinate*|*string*
+
+
 #Methods
 
 ##coords.init( selector [, options ] )
@@ -194,6 +209,26 @@ options|JSON object|optional|Configuration object
 
 ```javascript
 coords.convert('41° 25\' 01" W', { showSign: true, showCompassDirection:false, minutes:false } )
+/*Returns
+    - 41.41694444444445°
+*/
+```
+
+coords.setSaveFormat( options )
+==
+
+Set options to coordinate's save format. If is not used, the save format will be the same used to generate fields
+
+###Parameters
+
+Name|Type|Optional|Description
+---|---|---|---
+options|JSON object|optional|Configuration object. This uses the same properties used in init() to define saving format.
+
+###Example
+
+```javascript
+coords.setSaveFormat( { showSign: true, showCompassDirection:false, minutes:false } )
 /*Returns
     - 41.41694444444445°
 */
