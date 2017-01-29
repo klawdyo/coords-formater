@@ -48,8 +48,10 @@ var coords = {
         //'showIcon'              : false, //Show 'openMap' icon at right of input
 
         //Recalculate widths
-        recalculateWidth       : true,
-        pixelsBychars          : 8,
+        'recalculateWidth'      : true,
+        'pixelsBychars'         : 8,
+
+        'saveFormatOptions'     : null,
 
         //Messages
         'pasteErrorMessage'    : 'The pasted texto isn\'t a valid coordinate',
@@ -67,6 +69,7 @@ var coords = {
      *
      * @version 0.1 21/01/2017 Initial
      *          0.2 22/01/2017 Removido jQuery
+     *          0.3 28/01/2017
      *
      * @example
      *      //Usando uma class
@@ -82,6 +85,11 @@ var coords = {
     init: function( strSelector, options ){
         var $obj = this;
         this.initialOptions = this.options( options );
+
+        //Se não existir opções para o formato de salvamento, use o padrão
+        if( this.saveFormatOptions == null ) {
+            this.setSaveFormat( this.initialOptions );
+        }
 
         document.querySelectorAll( strSelector ).forEach( function( objInput ){
             $obj.makeAllEverythingAndOthers( objInput );
@@ -257,36 +265,52 @@ var coords = {
     },
 
     /*
-    * setInitialValues()
-    * Verifica se o campo original possui um valor prévio e atualiza os sub-campos
-    * para receber a informação.
-    *
-    * @version 0.1 25/01/2017 Initial
-    *
-    * @param
-    */
+     * setInitialValues()
+     * Verifica se o campo original possui um valor prévio e atualiza os sub-campos
+     * para receber a informação.
+     *
+     * @version 0.1 25/01/2017 Initial
+     *
+     * @param
+     */
     setInitialValues : function( objInput ){
         if( typeof objInput == 'object' && objInput.tagName == 'INPUT' && objInput.value !== '' ){
             this.batchValues( objInput, objInput.value );
             this.calculateWidths( objInput );
+            //Altera o próprio valor para o formato definido para salvamento
+            objInput.setAttribute( 'value', this.convert( objInput.value, this.saveFormatOptions ) );
         }
     },
 
     /*
-    * Recalcula o tamanho dos campos, sendo 8px para cada caractere
-    *
-    * @version 0.1 23/01/2017 Initial
-    *          0.2 25/01/2017 O parâmetro foi alterado do evento para o input original
-    *
-    * @param object objInput Input original
-    * @return void
-    */
+     * setSaveFormat()
+     * Define o formato que os dados serão salvos
+     *
+     * @version 0.1 28/01/2017 Initial
+     *
+     * @param
+     */
+    setSaveFormat : function( options ){
+        this.saveFormatOptions = this.options( options );
+    },
+
+
+
+    /*
+     * Recalcula o tamanho dos campos, sendo 8px para cada caractere
+     *
+     * @version 0.1 23/01/2017 Initial
+     *          0.2 25/01/2017 O parâmetro foi alterado do evento para o input original
+     *
+     * @param object objInput Input original
+     * @return void
+     */
     calculateWidths : function( objInput ){
         if( this.initialOptions.recalculateWidth !== true ) return;
 
         var pixelsBychars = this.initialOptions.pixelsBychars || 8;
         var children = objInput.nextSibling.children;
-        pr(objInput)
+        //pr(objInput)
         for( i = 0; i < children.length; i++ ){
             if( children[i].getAttribute( 'class' ).search( 'coords-input' )  !== -1 ){
                 children[i].style.width = ( ( children[i].value.length + 1 ) * pixelsBychars )  + 'px' ;
@@ -362,7 +386,7 @@ var coords = {
             }
         }
 
-        $input.setAttribute('value', $this.stringToDecimal( strCoord ) );
+        $input.setAttribute('value', $this.convert( strCoord, $this.saveFormatOptions ) );
     },
 
 
