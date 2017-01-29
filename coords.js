@@ -258,13 +258,16 @@ var coords = {
                     children[i].value = parse.compass;
                     break;
                 case 'degrees' :
-                    children[i].value = Number.isInteger( parse.degrees ) === true ? parse.degrees : parse.degrees.toFixed( this.initialOptions.decimalPlaces );
+                    children[i].value = Number.isInteger( parse.degrees ) === true ?
+                        parse.degrees : parse.degrees.toFixed( this.initialOptions.decimalPlaces );
                     break;
                 case 'minutes' :
-                    children[i].value = Number.isInteger( parse.minutes ) === true ? parse.minutes : parse.minutes.toFixed( this.initialOptions.decimalPlaces );
+                    children[i].value = Number.isInteger( parse.minutes ) === true ?
+                        parse.minutes : parse.minutes.toFixed( this.initialOptions.decimalPlaces );
                     break;
                 case 'seconds' :
-                    children[i].value = Number.isInteger( parse.seconds ) === true ? parse.seconds : parse.seconds.toFixed( this.initialOptions.decimalPlaces );
+                    children[i].value = Number.isInteger( parse.seconds ) === true ?
+                        parse.seconds : parse.seconds.toFixed( this.initialOptions.decimalPlaces );
                     break;
             }
         }
