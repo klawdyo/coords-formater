@@ -12,16 +12,24 @@ function pr( e ){ console.log(e); }
 
    -----------------------------------------------------------------------------
    TODO
-   - Verificar se um campo maior tem valor com decimal, mesmo que os campos
-     menores estejam preenchidos.
-   - Adicionar validações. Ex.: Se os minutos ou segundos são maiores que 60.
-   - Criar possibilidade de alterar o formato enviado para o servidor.
+    - Verificar se um campo maior tem valor com decimal, mesmo que os campos
+      menores estejam preenchidos.
+    - Adicionar validações. Ex.: Se os minutos ou segundos são maiores que 60.
+    - Criar possibilidade de alterar o formato enviado para o servidor.
         - Pode criar uma propriedade com o nome onSaveFormat que
         armazenaria o formato de salvamento do dados. Esse formato poderia ser
         cadastrado com um método setSaveFormat() recebendo as configurações
         baseada em initialOptions e no método options(). Esse valor será
         modificado ao alterar os dados e a funçãoo onChange fará essa verificação
         ao alterar.
+    - Converter lat/long do UTM
+    - Adicionar botão ao lado direito para abrir um popup para selecionar a
+      latitude/longitude
+    - Calcular distância entre 2 coordenadas
+    - Transformar campo de texto em um autocomplete para endereços, sendo possível
+      converter o endereço digitado para preencher os campos de latitude e longitude
+    - Permitir copiar as coordenadas para a área de transferência só apertando
+      ctrl+c em qualquer um dos campos
 
  *******************************************************************************/
 var coords = {
