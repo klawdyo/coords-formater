@@ -6,11 +6,11 @@ This library is intended to facilitate the use of coordinates in HTML forms, mak
 
 ###Copy
 
-If you enter in any field and press ctrl+c, you will copy the full coordinate to clipboard in the format defined in method [setSaveFormat()](https://github.com/klawdyo/coords#coordssetsaveformat-options-)
+If you enter in any field and press 'ctrl+c', you will copy the full coordinate to clipboard in the format defined in method [setSaveFormat()](https://github.com/klawdyo/coords#coordssetsaveformat-options-)
 
 ###Paste
 
-The generated sub-fields has support to paste events. Enter in any field and press ctrl+v to insert the coordinates in defined format.
+The generated sub-fields has support to 'paste' events. Enter in any field and press 'ctrl+v' to insert from clipboard the coordinates in format defined in [init()](https://github.com/klawdyo/coords#coordsinit-selector--options--)
 
 #Instalation
 
