@@ -214,8 +214,8 @@ coords.convert('41° 25\' 01" W', { showSign: true, showCompassDirection:false, 
 */
 ```
 
-coords.setSaveFormat( options )
-==
+##coords.setSaveFormat( options )
+
 
 Set options to coordinate's save format. If is not used, the save format will be the same used to generate fields
 
