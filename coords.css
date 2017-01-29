@@ -31,7 +31,7 @@
         box-shadow: none;
         text-align: right;
         float: left;
-        min-width: 35px;
+        min-width: 25px;
     }
         .input-container.coords .coords-input:hover,
         .input-container.coords .coords-select:hover {

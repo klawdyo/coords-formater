@@ -4,6 +4,8 @@ function pr( e ){ console.log(e); }
    formatar e exibir latitudes e longitudes.
 
    -----------------------------------------------------------------------------
+   VERSION 0.2 28/01/2017
+   -----------------------------------------------------------------------------
    COPYRIGHT
    -----------------------------------------------------------------------------
    EXAMPLES
@@ -15,7 +17,7 @@ function pr( e ){ console.log(e); }
     - Verificar se um campo maior tem valor com decimal, mesmo que os campos
       menores estejam preenchidos.
     - Adicionar validações. Ex.: Se os minutos ou segundos são maiores que 60.
-    - Criar possibilidade de alterar o formato enviado para o servidor.
+    - [OK] Criar possibilidade de alterar o formato enviado para o servidor.
         - Pode criar uma propriedade com o nome onSaveFormat que
         armazenaria o formato de salvamento do dados. Esse formato poderia ser
         cadastrado com um método setSaveFormat() recebendo as configurações
@@ -23,18 +25,18 @@ function pr( e ){ console.log(e); }
         modificado ao alterar os dados e a funçãoo onChange fará essa verificação
         ao alterar.
     - Converter lat/long do UTM
-    - Adicionar botão ao lado direito para abrir um popup para selecionar a
-      latitude/longitude
+    - Adicionar botão ao lado direito para abrir um popup com um mapa para
+      selecionar a latitude/longitude
     - Calcular distância entre 2 coordenadas
     - Transformar campo de texto em um autocomplete para endereços, sendo possível
       converter o endereço digitado para preencher os campos de latitude e longitude
-    - Permitir copiar as coordenadas para a área de transferência só apertando
+    - [OK] Permitir copiar as coordenadas para a área de transferência só apertando
       ctrl+c em qualquer um dos campos
 
  *******************************************************************************/
 var coords = {
 
-    /*
+    /**
      * @var
      * Opções gerais, usado para exibição dos inputs e para conversão entre formatos
      */
@@ -71,7 +73,7 @@ var coords = {
      *
      ************************************************************/
 
-    /*
+    /**
      * init()
      * Inicia a biblioteca a partir de um seletor jquery
      *
@@ -99,9 +101,11 @@ var coords = {
             this.setSaveFormat( this.initialOptions );
         }
 
-        document.querySelectorAll( strSelector ).forEach( function( objInput ){
-            $obj.makeAllEverythingAndOthers( objInput );
-        } );
+        var inputs = document.querySelectorAll( strSelector );
+
+        for( i = 0; i < inputs.length; i++ ){
+            $obj.makeAllEverythingAndOthers( inputs[i] );
+        }
 
         //Return object
         return this;
@@ -112,7 +116,8 @@ var coords = {
      *  DOM HANDLE
      *
      ************************************************************/
-    /*
+
+    /**
      * makeAllEverythingAndOthers()
      * Recebe um objeto individual e faz a transformação nele
      * - os campos + e - e as direções NEWS, serão colocadas com campos select
@@ -170,7 +175,7 @@ var coords = {
         this.setInitialValues( objInput );
     },
 
-    /*
+    /**
      * createElement()
      * Cria os elementos com javascript puro
      *
@@ -198,8 +203,7 @@ var coords = {
         objContainer.appendChild( span );
     },
 
-
-    /*
+    /**
      * createSelect()
      * Cria os selects
      *
@@ -229,7 +233,7 @@ var coords = {
         this.eventsHandler( select );
     },
 
-    /*
+    /**
      * batchValues()
      * Adiciona valores a todos os campos de uma vez. Usado em onPaste e ao carregar
      * a biblioteca com um valor predefinido
@@ -275,14 +279,15 @@ var coords = {
         return true;
     },
 
-    /*
+    /**
      * setInitialValues()
      * Verifica se o campo original possui um valor prévio e atualiza os sub-campos
      * para receber a informação.
      *
      * @version 0.1 25/01/2017 Initial
      *
-     * @param
+     * @param object objInput objeto da input original
+     * @return void
      */
     setInitialValues : function( objInput ){
         if( typeof objInput == 'object' && objInput.tagName == 'INPUT' && objInput.value !== '' ){
@@ -293,21 +298,20 @@ var coords = {
         }
     },
 
-    /*
+    /**
      * setSaveFormat()
      * Define o formato que os dados serão salvos
      *
      * @version 0.1 28/01/2017 Initial
      *
-     * @param
+     * @param object options Opções de configuração
+     * @return void
      */
     setSaveFormat : function( options ){
         this.saveFormatOptions = this.options( options );
     },
 
-
-
-    /*
+    /**
      * Recalcula o tamanho dos campos, sendo 8px para cada caractere
      *
      * @version 0.1 23/01/2017 Initial
@@ -342,7 +346,7 @@ var coords = {
 
 
 
-    /*
+    /**
      * Gera os eventos
      *
      * @version 0.1 22/01/2017 Initial
@@ -374,16 +378,38 @@ var coords = {
         objInput.addEventListener( 'keydown', function( evnt ){ $this.onKeydown( evnt, $this ) } );
         //Evento que atualiza o valor do campo oculto ao realizar alterações
         objInput.addEventListener( 'change',  function( evnt ){ $this.onChange(  evnt, $this ) } );
+
+        objInput.addEventListener('copy', function(evnt){ $this.onCopy( evnt, $this ) });
     },
 
-    /*
+    /**
+     * onCopy()
+     * Copia o valor da coordenada para a área de transferência de acordo com o
+     * formato definido para salvamento
+     *
+     * @version 0.1 28/01/2017 Initial
+     *
+     * @param object evnt Objeto do evento
+     * @param object $this Objeto da classe
+     * @return void
+     */
+    onCopy : function( evnt, $this ){
+        //console.log(e);
+        //console.log(objInput)
+        evnt.clipboardData.setData( 'text/plain', $this.inputToString( evnt.target.parentNode.previousSibling ) );
+        evnt.preventDefault();
+    },
+
+    /**
      * onChange()
      * Atualiza o valor do campo oculto ao alterar os campos criados
      *
      * @version 0.1 24/01/2017 Initial
      *          0.2 25/01/2017 Correção na atualização do valor do campo original
      *
-     * @param
+     * @param object evnt Objeto do evento
+     * @param object $this Objeto da classe
+     * @return void
      */
     onChange : function( evnt, $this ){
         var $container  =   evnt.target.parentNode;
@@ -401,7 +427,7 @@ var coords = {
     },
 
 
-    /*
+    /**
      * onKeydown()
      * Ao pressionar uma tecla
      *
@@ -413,7 +439,6 @@ var coords = {
      * @param object evnt Objeto do evento
      * @param object $this Objeto da classe
      * @return void
-     *
      */
     onKeydown : function( evnt, $this ){
         //pr(evnt.keyCode);
@@ -422,7 +447,7 @@ var coords = {
         }
     },
 
-    /*
+    /**
      * onFocus()
      * Seleciona todo o texto ao entrar no campo
      *
@@ -443,7 +468,7 @@ var coords = {
         }
     },
 
-    /*
+    /**
      * onPaste()
      * Gerencia o que acontece quando colamos um valor dentro dos campos
      * - Lê o valor, normaliza, dá um parse e separa os componentes nos
@@ -482,11 +507,12 @@ var coords = {
     ************************************************************/
 
 
-    /*
+    /**
      * Mescla as opções de acordo com as regras definidas para evitar distorções.
      * * Regras
      * - degree é sempre true;
      * - minute é true caso seconds também o seja
+     *
      * @version 0.1 22/01/2017 Initial
      *          0.2 23/01/2017 Mescla as opções definidas dentro das originais
      *          0.3 25/01/2017 Não mescla mais as opções originais
@@ -507,7 +533,7 @@ var coords = {
         return options;
     },
 
-    /*
+    /**
      * normalize
      * Tenta deixar a expressão em um formato padronizado
      * - Remove espaços duplicados
@@ -549,7 +575,7 @@ var coords = {
         return strCoord;
     },
 
-    /*
+    /**
      * parse()
      * Pega os componentes da coordenada
      *
@@ -605,7 +631,7 @@ var coords = {
         };
     },
 
-    /*
+    /**
      * Converte uma coordenada para float a partir de uma string em qualquer formato
      *
      * @version 0.1 22/01/2017 Initial
@@ -621,7 +647,7 @@ var coords = {
         } );
     },
 
-    /*
+    /**
      * convert()
      * Converte uma coordenada em float para o formado DD,DDD°
      *
@@ -638,7 +664,7 @@ var coords = {
         return this.parseObjectToString( this.parse( strCoord ), options );
     },
 
-    /*
+    /**
      * inputToString()
      * A partir do objeto input original, devolve o valor dos sub inputs no formato definido em options
      *
@@ -679,7 +705,7 @@ var coords = {
         return this.convert( strCoord, options );
     },
 
-    /*
+    /**
      * parseObjectToString()
      * A partir do objeto retornado por parse(), retorna uma string de acordo com
      * o formato definido em options
@@ -723,7 +749,7 @@ var coords = {
 
 };
 
-/*
+/**
  * Cria a função do jQuery
  */
 if( window.jQuery ){
