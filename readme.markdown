@@ -15,6 +15,7 @@ The generated sub-fields has support to 'paste' events. Enter in any field and p
 #Instalation
 
 ```html
+<meta charset="UTF-8">
 <link href="coords.css" rel="stylesheet" type="text/css" />
 <script src="coords.js"></script>
 ```
