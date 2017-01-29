@@ -51,6 +51,9 @@ var coords = {
         recalculateWidth       : true,
         pixelsBychars          : 8,
 
+        //Messages
+        'pasteErrorMessage'    : 'The pasted texto isn\'t a valid coordinate',
+
     },
     /************************************************************
      *
@@ -224,8 +227,8 @@ var coords = {
      */
     batchValues : function( $objInput, strCoord ){
         var parse    = this.parse( strCoord );
-        if( parse.length < 6 ) return false;
-        //pr(parse)
+        if( parse == false ) return false;
+        //pr(strCoord)
         //pr(this.initialOptions.decimalPlaces)
         var children = $objInput.nextSibling.children
 
@@ -429,11 +432,11 @@ var coords = {
         pastedData = clipboardData.getData('Text');
 
         if( $this.batchValues( evnt.target.parentNode.previousSibling, pastedData ) === false ){
-            alert( 'O texto \n\n'+  pastedData +'\n\nNão é uma coordenada válida' )
+            alert( $this.initialOptions.pasteErrorMessage )
         }
 
         //Recalcula os tamanhos
-        $this.calculateWidths( evnt );
+        $this.calculateWidths( evnt.target.parentNode.previousSibling );
     },
 
     /************************************************************
