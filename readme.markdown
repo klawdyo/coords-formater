@@ -1,18 +1,18 @@
-#Introduction
+# Introduction
 
 This library is intended to facilitate the use of coordinates in HTML forms, making conversions between formats and preparing the fields to receive this type of data effortlessly.
 
 **Has support to copy/paste events.**
 
-###Copy event
+### Copy event
 
 If you enter in any field and press 'ctrl+c', you will copy the full coordinate to clipboard in the format defined in method [setSaveFormat()](https://github.com/klawdyo/coords#coordssetsaveformat-options-)
 
-###Paste event
+### Paste event
 
 The generated sub-fields has support to 'paste' events. Enter in any field and press 'ctrl+v' to insert from clipboard the coordinates in format defined in [init()](https://github.com/klawdyo/coords#coordsinit-selector--options--)
 
-#Instalation
+# Instalation
 
 ```html
 <meta charset="UTF-8">
@@ -20,7 +20,7 @@ The generated sub-fields has support to 'paste' events. Enter in any field and p
 <script src="coords.js"></script>
 ```
 
-#Usage
+# Usage
 
 ```html
 <div class="input input-container coords w2">
@@ -28,15 +28,15 @@ The generated sub-fields has support to 'paste' events. Enter in any field and p
 </div>
 ```
 
-#Initialization
+# Initialization
 
-###Pure Javascript
+### Pure Javascript
 
 ```javascript
     coords.init( 'input[type="coords"]' );
 ```
 
-###Using jQuery
+### Using jQuery
 
 ```javascript    
     //Using default options
@@ -46,73 +46,73 @@ The generated sub-fields has support to 'paste' events. Enter in any field and p
     $('input[type="coords"]').coords({ degrees:true, minutes: false });
 ```
 
-#Properties
+# Properties
 
 The `properties` below can be used to configurate some methods, like `init()` and `convert()`.
 
-##degrees
+## degrees
 
 Description|Default Value|Type
 ---|---|---
 Show degrees. Always true|*true*|*boolean*
 
-##minutes
+## minutes
 
 Description|Default Value|Type
 ---|---|---
 Show minutes|*true*|*boolean*
 
-##seconds
+## seconds
 
 Description|Default Value|Type
 ---|---|---
 Show seconds. False if minutes is false too|*true*|*boolean*
 
-##spaces   
+## spaces   
 
 Description|Default Value|Type
 ---|---|---
 Spaces between parts|*true*|*boolean*
 
-##degreeIndicator
+## degreeIndicator
 
 Description|Default Value|Type
 ---|---|---
 Degree component indicator|*°*|*string*
 
-##minuteIndicator
+## minuteIndicator
 
 Description|Default Value|Type
 ---|---|---
 Minute component indicator|*'*|*string*
 
-##secondIndicator
+## secondIndicator
 
 Description|Default Value|Type
 ---|---|---
 Second component indicator|*"*|*string*
 
-##showSign
+## showSign
 
 Description|Default Value|Type
 ---|---|---
 Configure to show sign at start|*true*|*boolean*
 
-##showCompassDirection
+## showCompassDirection
 
 Description|Default Value|Type
 ---|---|---
 Configure to show compass direction at end|*true*|*boolean*
 
 
-##decimalSeparator
+## decimalSeparator
 
 Description|Default Value|Type
 ---|---|---
 Last component's decimal separator|*.*|*string*
 
 
-##decimalPlaces
+## decimalPlaces
 
 Description|Default Value|Type
 ---|---|---
@@ -120,34 +120,34 @@ Number of decimal places|*5*|*integer*
 
 
 
-##recalculateWidth
+## recalculateWidth
 
 Description|Default Value|Type
 ---|---|---
 Sets if sub fields changes its widths onChange|*true*|*bool*
 
 
-##pasteErrorMessage
+## pasteErrorMessage
 
 Description|Default Value|Type
 ---|---|---
 Message showed onPaste invalid coordinate|*The pasted text isn't a valid coordinate*|*string*
 
 
-#Methods
+# Methods
 
-##coords.init( selector [, options ] )
+## coords.init( selector [, options ] )
 
 Starting the library. This method hides the main input and create new HTML fields according `options` to help handling coordinates information.
 
-###Parameters
+### Parameters
 
 Name|Type|Optional|Description
 ---|---|---|---
 selector|string|required|Selector in a format accepted by `document.querySelectorAll()`
 options|object|Optional|Configuration object
 
-###Example
+### Example
 
 ```javascript
 //Generate sub-fields with default configs
@@ -162,17 +162,17 @@ coords.init('input.coords', { showSign:true, showCompassDirection: false })
 
 On form submit, the coordinate's format send to server backend is [+/-] dd.dddd. This values is update on each change in sub-fields.
 
-##coords.parse( coordinate )
+## coords.parse( coordinate )
 
 Extract coordinates components from passed string
 
-###Parameters
+### Parameters
 
 Name|Type|Optional|Description
 ---|---|---|---
 coordinate|string|required|Selector in a format accepted by `document.querySelectorAll()`
 
-###Example
+### Example
 
 ```javascript
 coords.parse('S17 33 08.352')
@@ -186,7 +186,7 @@ coords.parse('S17 33 08.352')
 }*/
 ```
 
-###Accepted Input Formats
+### Accepted Input Formats
 
 - 41 25 01N
 - 41°25'01"N
@@ -205,18 +205,18 @@ coords.parse('S17 33 08.352')
 - -41°
 - +N41.092
 
-##coords.convert( coordinate [ , options ] )
+## coords.convert( coordinate [ , options ] )
 
 Convert `cordinate` to other format according `options`
 
-###Parameters
+### Parameters
 
 Name|Type|Optional|Description
 ---|---|---|---
 coordinate|string|required|Selector in a format accepted by `document.querySelectorAll()`
 options|JSON object|optional|Configuration object
 
-###Example
+### Example
 
 ```javascript
 coords.convert('41° 25\' 01" W', { showSign: true, showCompassDirection:false, minutes:false } )
@@ -225,18 +225,18 @@ coords.convert('41° 25\' 01" W', { showSign: true, showCompassDirection:false, 
 */
 ```
 
-##coords.setSaveFormat( options )
+## coords.setSaveFormat( options )
 
 
 Set options to coordinate's save format. If is not used, the save format will be the same used to generate fields
 
-###Parameters
+### Parameters
 
 Name|Type|Optional|Description
 ---|---|---|---
 options|JSON object|optional|Configuration object. This uses the same properties used in init() to define saving format.
 
-###Example
+### Example
 
 ```javascript
 coords.setSaveFormat( { showSign: true, showCompassDirection:false, minutes:false } )
@@ -247,6 +247,6 @@ coords.setSaveFormat( { showSign: true, showCompassDirection:false, minutes:fals
 
 
 
-#Copyright
+# Copyright
 
 (c) claudiomedeiros.net (klawdyo) 2017
