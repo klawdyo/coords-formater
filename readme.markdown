@@ -246,7 +246,12 @@ coords.setSaveFormat( { showSign: true, showCompassDirection:false, minutes:fals
 ```
 
 
+# License
+
+MIT
 
 # Copyright
 
-(c) claudiomedeiros.net (klawdyo) 2017
+(c) klawdyo.com (klawdyo) 2017
+
+
