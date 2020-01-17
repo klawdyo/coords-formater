@@ -1,0 +1,23 @@
+{
+  "name": "coords",
+  "version": "0.0.1",
+  "description": "A coordinates parser",
+  "main": "index.js",
+  "scripts": {
+    "test": "cls && node tests/index.test | tap-spec"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/klawdyo/coords.git"
+  },
+  "author": "Cláudio Medeiros (klawdyo)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/klawdyo/coords/issues"
+  },
+  "homepage": "https://github.com/klawdyo/coords#readme",
+  "devDependencies": {
+    "tap-spec": "^5.0.0",
+    "tape": "^4.13.0"
+  }
+}
