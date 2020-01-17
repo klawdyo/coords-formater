@@ -80,6 +80,10 @@ const defaultOptions = {
  * @return String Coordenadas formatadas
  */
 const normalize = function (strCoord) {
+  // 
+  strCoord = String(strCoord);
+
+  // 
   return strCoord.replace(/\s{2,}/g, " ") // double spaces
     .replace(/[°˚⁰∘◦॰ºo]+/g, '°') // degree indicators
     .replace(/[`'ʹʼˈ׳′ꞌ]{1}/g, "'") // single quotes
