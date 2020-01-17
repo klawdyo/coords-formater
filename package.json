@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/klawdyo/coords.git"
+    "url": "git+https://github.com/klawdyo/coords-formater.git"
   },
   "author": "Cláudio Medeiros (klawdyo)",
   "license": "MIT",
