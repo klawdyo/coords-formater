@@ -70,6 +70,7 @@ const defaultOptions = {
  *
  * @version 0.1 21/01/2017 Initial
  *          0.2 16/01/2020 Refactoring
+ *          0.3 17/01/2020 Parâmetro strCoord sempre convertido para String
  *
  * Fonte dos caracteres: http://www.fileformat.info/info/unicode/char/00b0/index.htm
  *
@@ -104,6 +105,7 @@ const normalize = function (strCoord) {
  * @return
  */
 const parse = function (strCoord) {
+  // 
   //Iniciando o parsing normalizado
   strCoord = normalize(strCoord);
 
@@ -151,6 +153,8 @@ const parse = function (strCoord) {
  * Converte uma coordenada para float a partir de uma string em qualquer formato
  *
  * @version 0.1 22/01/2017 Initial
+ *          0.2 17/01/2020 - Renomeado para toFloat()
+ *                         - Não retorna o sinal "+" se for positivo
  *
  * @param string strCoord
  * @return
@@ -193,7 +197,7 @@ const convert = function (strCoord, options = {}) {
 
 
 /**
- * parsedObjectToString()
+ * toString()
  * A partir do objeto retornado por parse(), retorna uma string de acordo com
  * o formato definido em options
  *
@@ -203,7 +207,7 @@ const convert = function (strCoord, options = {}) {
  * @param  object options  Objeto de configurações
  * @return
  */
-const parsedObjectToString = function (parsedCoord, options = {}) {
+const toString = function (parsedCoord, options = {}) {
   options = { ...defaultOptions, ...options }
 
   if (options.minutes === false) options.seconds = false
