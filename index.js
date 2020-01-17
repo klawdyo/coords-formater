@@ -151,12 +151,22 @@ const parse = function (strCoord) {
  * @param string strCoord
  * @return
  */
-const stringToDecimal = function (strCoord) {
-  return this.convert(strCoord, {
+const toFloat = function (strCoord) {
+
+  const options = {
     'degrees': true, 'minutes': false, 'seconds': false,
     'showSign': true, 'spaces': false, 'degreeIndicator': '',
     'showCompassDirection': false
-  });
+  }
+
+  const parsed = parse(strCoord);
+
+  // console.log(strCoord, parsed)
+
+  // IF signal is plus, remove signal
+  if (parsed.signal === '+') options.showSign = false;
+
+  return parseFloat(toString(parsed, options));
 }
 
 /**
@@ -165,6 +175,7 @@ const stringToDecimal = function (strCoord) {
  *
  * @version 0.1 22/01/2017 Initial
  *          0.2 25/01/2017 Conversão realizada por parsedObjectToString()
+ *          0.3 17/01/2020 Renomeado para toString()
  *
  * @example
  *
@@ -173,7 +184,7 @@ const stringToDecimal = function (strCoord) {
  * @return string
  */
 const convert = function (strCoord, options = {}) {
-  return parsedObjectToString(parse(strCoord), options);
+  return toString(parse(strCoord), options);
 }
 
 
@@ -223,6 +234,8 @@ const parsedObjectToString = function (parsedCoord, options = {}) {
 module.exports = {
   normalize,
   parse,
-  convert
+  convert,
+  toFloat,
+  toString
 }
 
