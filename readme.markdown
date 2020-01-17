@@ -60,8 +60,12 @@ coordinate|`String`|required|Coordinate in any [Accepted Input Formats](#accepte
 const {normalize} = require('coord');
 
 // Replaces "º" by "°"
-normalize('41º 12.123"') // 41° 12.123"
+normalize('41º 12.123"') 
+
+// Returns
+// 41° 12.123"
 ```
+------
 
 ## parse( `String` coordinate )
 
@@ -78,18 +82,19 @@ coordinate|`String`|required|Coordinate in any [Accepted Input Formats](#accepte
 ```javascript
 const {parse} = require('coords');
 
-parse('S17 33 08.352')
+parse('S17 33 08.352');
+
 /*Returns
 {
-    compass:"S"
-    degrees:17
-    minutes:33
-    seconds:8.352
+    compass:"S",
+    degrees:17,
+    minutes:33,
+    seconds:8.352,
     signal:"-"
 }*/
 ```
 
-
+------
 ## convert( `String` coordinate [ , options ] )
 
 Convert `cordinate` to other format according `options`
@@ -108,11 +113,79 @@ options|``Object``|optional|[Properties object](#properties)
 const {convert} = require('coords') ;
 
 convert('41° 25\' 01" W', { 
-  showSign: true, showCompassDirection:false, minutes:false 
-} )
-/*Returns
-    - 41.41694444444445°
-*/
+  showSign: true, 
+  showCompassDirection:false, 
+  minutes:false 
+  } 
+);
+
+// Returns
+// - 41.41694444444445°
+
+```
+------
+## toString( `Object` parsedCoordinate [ , options ] )
+
+Convert the object `parsedCordinate` to other format according `options`
+
+### Parameters
+
+Name|Type|Optional|Description
+---|---|---|---
+parsedCordinate|`Object`|required|Object of coordinates parts, like returned by parse()
+options|``Object``|optional|[Properties object](#properties)
+
+### Example
+
+```javascript
+
+const {toString} = require('coords') ;
+
+// object returned by parse()
+const parts = {
+  compass:"S",
+  degrees:17,
+  minutes:33,
+  seconds:8.352,
+  signal:"-"
+}
+
+// Configuration options
+const options = {
+  showSign:false, 
+  showCompassDirection:true
+}
+
+toString(parts, options );
+
+// Returns 
+// 17° 33' 8.352" S
+```
+
+------
+## toFloat( `String` coordinate [ , options ] )
+
+Convert `cordinate` to numeric format with float type
+
+### Parameters
+
+Name|Type|Optional|Description
+---|---|---|---
+coordinate|`String`|required|Coordinate in any [Accepted Input Formats](#accepted-input-formats)
+
+### Example
+
+```javascript
+
+const {toFloat} = require('coords') ;
+
+toFloat('42 12 10')
+// Returns
+// 42.202777777777776
+
+toFloat('S 42 12 10')
+// Returns
+// - 42.202777777777776
 ```
 
 # Accepted Input Formats
