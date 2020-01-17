@@ -1,7 +1,7 @@
 {
-  "name": "coords",
-  "version": "0.0.1",
-  "description": "A coordinates parser",
+  "name": "coords-formater",
+  "version": "1.0.1",
+  "description": "A coordinates parser and formater",
   "main": "index.js",
   "scripts": {
     "test": "cls && node tests/index.test | tap-spec"
