@@ -1,14 +1,19 @@
 const test = require('tape')
-
-
 const { convert } = require('../index')
 
-const { log } = console
-log(convert('41 12 34N', { seconds: false }))
-
 test('Convert coordinates between formats', t => {
-  t.equal(convert('41 12 34N'), `41° 12' 34" N`, `Convert 41N expecting 41° 12' 34" N`)
-  // t.equal(convert('41 12 34N', { seconds: false }), `41° 12' N`, `Convert 41N expecting 41° 0' N`)
+
+  const from = '41 12 34N';
+
+  t.matchConverting = function (to, options) {
+    this.equal(convert(from, options), to, `Convert: ${from} Expecting: ${to}`)
+  }
+
+
+  t.matchConverting(`41° 12' 34" N`)
+  t.matchConverting(`41° 12.566666666666666' N`, { seconds: false })
+  t.matchConverting(`+ 41° 12' 34"`, { showCompassDirection: false, showSign: true })
+  t.matchConverting(`41.20944444444444° N`, { minutes: false })
 
 
   t.end()

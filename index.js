@@ -1,9 +1,10 @@
 /********************************************
   @description
-  Coordinates parser
+  Coordinates parser and conversor between formats
   
   @example
-  coords('S17 33 08.352')
+  const {parse} = require('coords')
+  parse('S17 33 08.352')
   Returns
   {
     compass:"S"
@@ -32,10 +33,7 @@
      +N41.092
 
 
-    // Formata uma coordenada dada para um formato específico
-    coords('S17 33 08.352').format({ showSign: true, showCompassDirection:false, minutes:false })
-    Returns 
-
+    
 
 
 
@@ -80,39 +78,23 @@ const defaultOptions = {
  * - Substitui , por .
  *
  * @version 0.1 21/01/2017 Initial
+ *          0.2 16/01/2020 Refactoring
  *
  * Fonte dos caracteres: http://www.fileformat.info/info/unicode/char/00b0/index.htm
  *
  * @todo: substituir os caracteres pelos seus correspondentes no unicode
  *        http://www.w3schools.com/jsref/jsref_regexp_unicode_hex.asp
+ * 
  * @param string strCoord Texto com a coordenada em qualquer valor
  * @return String Coordenadas formatadas
  */
 const normalize = function (strCoord) {
-
-  // pr('1) '+strCoord)
-  strCoord = strCoord.replace(/\s{2,}/g, " ") //Remove espaços duplos
-    .replace(/[°˚⁰∘◦॰ºo]+/g, '°')
-    .replace(/[`'ʹʼˈ׳′ꞌ]{1}/g, "'")
-    .replace("''", '"') //two double quotes
-    .replace(/["„“”]+/g, '"')
-    .replace(/\,+/g, '.') //transformando vírgulas em pontos
-  // pr('7) '+strCoord)
-  return strCoord;
-  // // pr('1) '+strCoord)
-  // strCoord = strCoord.replace(/\s{2,}/g, " ") //Remove espaços duplos
-  // // pr('2) '+strCoord)
-  // strCoord = strCoord.replace(/[°˚⁰∘◦॰ºo]+/g, '°')
-  // // pr('3) '+strCoord)
-  // strCoord = strCoord.replace(/[`'ʹʼˈ׳′ꞌ]{1}/g, "'")
-  // // pr('4) '+strCoord)
-  // strCoord = strCoord.replace("''", '"') //two double quotes
-  // // pr('5) '+strCoord)
-  // strCoord = strCoord.replace(/["„“”]+/g, '"')
-  // // pr('6) '+strCoord)
-  // strCoord = strCoord.replace(/\,+/g, '.') //transformando vírgulas em pontos
-  // // pr('7) '+strCoord)
-  // return strCoord;
+  return strCoord.replace(/\s{2,}/g, " ") // double spaces
+    .replace(/[°˚⁰∘◦॰ºo]+/g, '°') // degree indicators
+    .replace(/[`'ʹʼˈ׳′ꞌ]{1}/g, "'") // single quotes
+    .replace("''", '"') //two single quotes
+    .replace(/["„“”]+/g, '"') // double quote
+    .replace(/\,+/g, '.') //commas to dots
 }
 
 /**
@@ -136,7 +118,6 @@ const parse = function (strCoord) {
   var pattern = /([NEWS]{1}|[-+]{1})?\s*([0-9,\.]+\s*°?)\s*([0-9,\.]+\s*'?)?\s*([0-9,\.]+\s*"?)?\s*([NEWS]{1})?/i
 
   var parts = pattern.exec(strCoord);
-  // pr(parts)
   if (parts == null) return false;
 
   var compassDirections = ['N', 'E', 'W', 'S'];
@@ -192,7 +173,7 @@ const stringToDecimal = function (strCoord) {
  * Converte uma coordenada em float para o formado DD,DDD°
  *
  * @version 0.1 22/01/2017 Initial
- *          0.2 25/01/2017 Conversão realizada por parseObjectToString()
+ *          0.2 25/01/2017 Conversão realizada por parsedObjectToString()
  *
  * @example
  *
@@ -201,12 +182,12 @@ const stringToDecimal = function (strCoord) {
  * @return string
  */
 const convert = function (strCoord, options = {}) {
-  return parseObjectToString(parse(strCoord), options);
+  return parsedObjectToString(parse(strCoord), options);
 }
 
 
 /**
- * parseObjectToString()
+ * parsedObjectToString()
  * A partir do objeto retornado por parse(), retorna uma string de acordo com
  * o formato definido em options
  *
@@ -216,18 +197,17 @@ const convert = function (strCoord, options = {}) {
  * @param  object options  Objeto de configurações
  * @return
  */
-const parseObjectToString = function (parsedCoord, options = {}) {
+const parsedObjectToString = function (parsedCoord, options = {}) {
   options = { ...defaultOptions, ...options }
 
-  // if (options.minutes == false) options.seconds = false
-  console.log(options)
+  if (options.minutes === false) options.seconds = false
 
-  if (options.seconds == false) {
+  if (options.seconds === false) {
     parsedCoord.minutes = parsedCoord.minutes + (parsedCoord.seconds / 60);
     parsedCoord.seconds = false;
   }
 
-  if (options.minutes == false) {
+  if (options.minutes === false) {
     parsedCoord.degrees = parsedCoord.degrees + (parsedCoord.minutes / 60);
     parsedCoord.minutes = false;
   }
@@ -249,13 +229,6 @@ const parseObjectToString = function (parsedCoord, options = {}) {
   ).replace(/[,\.]+/g, options.decimalSeparator).trim();
 
 }
-
-
-
-
-
-// exports.normalize = coords.normalize
-
 
 module.exports = {
   normalize,
