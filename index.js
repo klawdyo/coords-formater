@@ -32,18 +32,9 @@
      -41°
      +N41.092
 
-
-    
-
-
-
-  
-
   
   
  *****************************/
-
-// const coords = {
 
 /**
      * @var
@@ -224,7 +215,6 @@ const parsedObjectToString = function (parsedCoord, options = {}) {
     + (options.seconds == true ? spaces + parsedCoord.seconds + options.secondIndicator : '')
     //   //imprimindo a direção da bússola
     + (options.showCompassDirection && parsedCoord.compass ? spaces + parsedCoord.compass : '')
-    // + ( options.showCompassDirection && parsedCoord.compass ? spaces + options.compassDirections.indexOf( parsedCoord.compass ) : '' )
     //   //substituindo os pontos e vírgulas pela opção definida
   ).replace(/[,\.]+/g, options.decimalSeparator).trim();
 
