@@ -12,7 +12,7 @@ import coords from 'coords'
 const coords = require('coords')
 ```
 
-## Destructing
+## Destructuring
 
 ```javascript
 // Es6 module pattern
@@ -28,17 +28,17 @@ The `properties` below can be used to configurate some methods, `convert()`.
 
 Property|Description|Default Value|Type
 ---|---|---|---
-degress|Show degrees. Always true|*true*|*boolean*
-minutes|Show minutes|*true*|*boolean*
-seconds|Show seconds. False if minutes is also false|*true*|*boolean*
-spaces|Show spaces between parts|*true*|*boolean*
-degreeIndicator|Degree part indicator|*°*|*string*
-minuteIndicator|Minute part indicator|*'*|*string*
-secondIndicator|Second part indicator|*"*|*string*
-showSign|Configure to show `[+/-]` sign at start|*true*|*boolean*
-showCompassDirection|Configure to show compass direction at end|*true*|*boolean*
-decimalSeparator|Last part's decimal separator|*.*|*string*
-decimalPlaces|Number of decimal places|*5*|*integer*
+degrees|Show degrees. Always true|`true`|`Boolean`
+minutes|Show minutes|`true`|`Boolean`
+seconds|Show seconds. False if minutes is also false|`true`|`Boolean`
+spaces|Show spaces between parts|`true`|`Boolean`
+degreeIndicator|Degree part indicator|`°`|`String`
+minuteIndicator|Minute part indicator|`'`|`String`
+secondIndicator|Second part indicator|`"`|`String`
+showSign|Configure to show `[+/-]` sign at start|`true`|`Boolean`
+showCompassDirection|Configure to show compass direction at end|`true`|`Boolean`
+decimalSeparator|Last part's decimal separator|`.`|`String`
+decimalPlaces|Number of decimal places|`5`|*Integer*
 
 
 # Methods
