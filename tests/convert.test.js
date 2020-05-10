@@ -1,5 +1,5 @@
 const test = require('tape')
-const { convert } = require('../index')
+const { convert } = require('../dist/CoordsFormater')
 
 test('Convert coordinates between formats', t => {
 

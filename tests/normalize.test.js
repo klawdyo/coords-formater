@@ -1,8 +1,8 @@
 const test = require('tape')
 
 
-const { normalize } = require('../index')
-const coords = require('../index')
+const { normalize } = require('../dist/CoordsFormater')
+// const coords = require('../index')
 
 test('Normalize verify', t => {
   t.assert(normalize(`41° 25' 01" W`) === `41° 25' 01" W`, 'Normal normalize')

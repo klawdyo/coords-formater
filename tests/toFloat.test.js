@@ -1,7 +1,7 @@
 const test = require('tape')
 
 
-const { toFloat } = require('../index')
+const { toFloat } = require('../dist/CoordsFormater')
 const { log: _ } = console
 
 

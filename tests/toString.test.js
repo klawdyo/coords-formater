@@ -1,6 +1,6 @@
 const test = require('tape')
 
-const { toString, parse } = require('../index')
+const { toString, parse } = require('../dist/CoordsFormater')
 const { log: _ } = console
 
 

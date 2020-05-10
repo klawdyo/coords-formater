@@ -1,8 +1,8 @@
 const test = require('tape')
 
 
-const { normalize, parse } = require('../index')
-const coords = require('../index')
+const { normalize, parse } = require('../dist/CoordsFormater')
+// const coords = require('../index')
 
 // { Format : Expected }
 const formats = {
