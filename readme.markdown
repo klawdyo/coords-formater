@@ -4,27 +4,35 @@ This library is intended to facilitate the use of coordinates, making conversion
 
 # Instalation
 
+```bash
+# NPM
+npm install coords-formater --save
+
+# Yarn
+yarn add coords-formater
+```
+
 ```js
 // Es6 module pattern
-import coords from 'coords'
+import coords from 'coords-formater'
 
 // Node module pattern
-const coords = require('coords')
+const coords = require('coords-formater')
 ```
 
 ## Destructuring
 
 ```javascript
 // Es6 module pattern
-import {convert, parse} from 'coords'
+import { convert, parse } from 'coords-formater'
 
 // Node module pattern
-const {normalize} = require('coords')
+const { normalize } = require('coords-formater')
 ```
 
 # Properties
 
-The `properties` below can be used to configurate some methods, `convert()`.
+The `properties` below can be used to configurate some methods.
 
 Property|Description|Default Value|Type
 ---|---|---|---
@@ -38,7 +46,7 @@ secondIndicator|Second part indicator|`"`|`String`
 showSign|Configure to show `[+/-]` sign at start|`true`|`Boolean`
 showCompassDirection|Configure to show compass direction at end|`true`|`Boolean`
 decimalSeparator|Last part's decimal separator|`.`|`String`
-decimalPlaces|Number of decimal places|`5`|*Integer*
+decimalPlaces|Number of decimal places|`5`|`Integer`
 
 
 # Methods
@@ -57,7 +65,7 @@ coordinate|`String`|required|Coordinate in any [Accepted Input Formats](#accepte
 
 ```javascript
 // Import
-const {normalize} = require('coord');
+const { normalize } = require('coords-formater');
 
 // Replaces "º" by "°"
 normalize('41º 12.123"') 
@@ -80,7 +88,7 @@ coordinate|`String`|required|Coordinate in any [Accepted Input Formats](#accepte
 ### Example
 
 ```javascript
-const {parse} = require('coords');
+const { parse } = require('coords-formater');
 
 parse('S17 33 08.352');
 
@@ -95,7 +103,7 @@ parse('S17 33 08.352');
 ```
 
 ------
-## convert( `String` coordinate [ , options ] )
+## convert( `String` coordinate [ , `Object` options ] )
 
 Convert `cordinate` to other format according `options`
 
@@ -110,12 +118,12 @@ options|``Object``|optional|[Properties object](#properties)
 
 ```javascript
 
-const {convert} = require('coords') ;
+const { convert } = require('coords-formater') ;
 
 convert('41° 25\' 01" W', { 
   showSign: true, 
-  showCompassDirection:false, 
-  minutes:false 
+  showCompassDirection: false, 
+  minutes: false 
   } 
 );
 
@@ -124,7 +132,7 @@ convert('41° 25\' 01" W', {
 
 ```
 ------
-## toString( `Object` parsedCoordinate [ , options ] )
+## toString( `Object` parsedCoordinate [ , `Object` options ] )
 
 Convert the object `parsedCordinate` to other format according `options`
 
@@ -139,7 +147,7 @@ options|``Object``|optional|[Properties object](#properties)
 
 ```javascript
 
-const {toString} = require('coords') ;
+const { toString } = require('coords-formater') ;
 
 // object returned by parse()
 const parts = {
@@ -163,7 +171,7 @@ toString(parts, options );
 ```
 
 ------
-## toFloat( `String` coordinate [ , options ] )
+## toFloat( `String` coordinate [ , `Object` options ] )
 
 Convert `cordinate` to numeric format with float type
 
@@ -177,7 +185,7 @@ coordinate|`String`|required|Coordinate in any [Accepted Input Formats](#accepte
 
 ```javascript
 
-const {toFloat} = require('coords') ;
+const { toFloat } = require('coords-formater') ;
 
 toFloat('42 12 10')
 // Returns
@@ -215,6 +223,6 @@ MIT
 
 # Copyright
 
-(c) klawdyo.com (klawdyo) 2017
+(c) klawdyo.com (klawdyo) 2020
 
 
