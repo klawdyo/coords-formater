@@ -16,6 +16,14 @@ export class Coord {
     this._longitude = new Parser(longitude);
   }
 
+  get latitude(): number {
+    return new Formatter(this._latitude).toDecimal()
+  }
+
+  get longitude() {
+    return new Formatter(this._longitude).toDecimal()
+  }
+
   getLatitude(options?: FormatterOptions) {
     const formatter = new Formatter(this._latitude);
     return !options ? formatter.toDecimal() : formatter.toString('latitude', options);
