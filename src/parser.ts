@@ -54,6 +54,14 @@ export class Parser implements DMS {
     return { signal: '+' };
   }
 
+  toJSON() {
+    return {
+      signal: this.signal,
+      compass: this.compass,
+      degrees: this.degrees,
+      minutes: this.minutes,
+      seconds: this.seconds,
+    }
   }
 
 }
