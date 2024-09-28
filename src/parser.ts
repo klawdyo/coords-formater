@@ -42,12 +42,18 @@ export class Parser implements DMS {
 
   }
 
-  private calculateSignal(signal1?: string, signal2?: string) {
+  private calculateSignal(signal1?: string, signal2?: string): { signal: string; compass?: Compass } {
     const signal = signal1 || signal2;
-    if (signal === '+' || signal === '-') return signal;
-    else if (signal === 'S' || signal === 'W') return '-';
-    else if (signal === 'N' || signal === 'E') return '+';
-    return '+';
+    if (signal === '+' || signal === '-') return { signal };
+    else if (signal && [Compass.NORTH, Compass.SOUTH, Compass.EAST, Compass.WEST].includes(signal as Compass)) {
+      const compass = signal as Compass;
+      if (signal === Compass.SOUTH || signal === Compass.WEST) return { signal: '-', compass };
+      else if (signal === Compass.NORTH || signal === Compass.EAST) return { signal: '+', compass };
+    }
+
+    return { signal: '+' };
+  }
+
   }
 
 }
