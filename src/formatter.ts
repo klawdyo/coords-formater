@@ -1,3 +1,4 @@
+import { Compass } from "./_enums/compass.enum";
 import { Converter } from "./converter";
 import { FormatterOptions } from "./coord";
 import { Parser } from "./parser";
@@ -10,7 +11,7 @@ export class Formatter {
   }
 
   toString(dimension: 'latitude' | 'longitude', options?: FormatterOptions) {
-    const indicator = this.getIndicator(this._value, options, dimension);
+    const indicator = this.getCompass(this._value, options, dimension);
     const indicatorBefore = !options?.indicatorPosition || options?.indicatorPosition === 'before' ? indicator : '';
     const indicatorAfter = options?.indicatorPosition === 'after' ? indicator : '';
 
@@ -18,38 +19,39 @@ export class Formatter {
     const minuteSeparator = options?.minuteSeparator || '" ';
     const secondSeparator = options?.secondSeparator || "' ";
 
-    const minute = this._value.minute ? `${this._value.minute}${minuteSeparator}` : '';
-    const second = this._value.second ? `${this._value.second}${secondSeparator}` : '';
+    const minute = this._value.minutes ? `${this._value.minutes}${minuteSeparator}` : '';
+    const second = this._value.seconds ? `${this._value.seconds}${secondSeparator}` : '';
 
-    return `${indicatorBefore} ${this._value.degree}${degreeSeparator}${minute}${second}${indicatorAfter}`;
+    return `${indicatorBefore} ${this._value.degrees}${degreeSeparator}${minute}${second}${indicatorAfter}`;
   }
 
   /**
-   *
+   * 
    */
   toDecimal() {
-    return Converter.dmsToDecimal(this._value)
-    // const { signal, degree, minute, second } = this._value;
-
-    // let accu = degree;
-
-    // if (minute) {
-    //   accu += minute / 60;
-    // }
-    // if (second) {
-    //   accu += second / 60;
-    // }
-    // if (signal === '-') return -1 * accu;
-    // return accu;
+    return Converter.dmsToDecimal(this._value);
   }
 
-  private getIndicator(value: Parser, options: FormatterOptions | undefined, dimension: 'latitude' | 'longitude') {
+  /**
+   * 
+   * 
+   * 
+   */
+  private getCompass(value: Parser, options: FormatterOptions | undefined, dimension: 'latitude' | 'longitude'): string {
+    // Deve retornar um signal
     if (options?.indicator === 'signal') return value.signal;
-
-    if (dimension === 'latitude') {
-      return value.signal === '+' ? 'N' : 'S';
-    } else {
-      return value.signal === '+' ? 'E' : 'W';
+    
+    // Deve retornar um compass. Caso compass estiver preenchido, retorne
+    else if (options?.indicator === 'compass' && value.compass) return value.compass
+    
+    // Se deve retornar compass, porém compass não está preenchido, tente calculá-lo a partir do signal e do
+    // dimension, verificando se é latitude ou longitude
+    else {
+      if (dimension === 'latitude') {
+        return value.signal === '+' ? Compass.NORTH : Compass.SOUTH;
+      } else {
+        return value.signal === '+' ? Compass.EAST : Compass.WEST;
+      }
     }
   }
 }
