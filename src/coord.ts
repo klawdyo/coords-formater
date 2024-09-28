@@ -2,9 +2,9 @@ import { Formatter } from './formatter';
 import { Parser } from './parser';
 
 export interface DMS {
-  degree: number;
-  minute: number;
-  second: number;
+  degrees: number;
+  minutes: number;
+  seconds: number;
 }
 
 export class Coord {
