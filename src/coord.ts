@@ -1,11 +1,7 @@
 import { Formatter } from './formatter';
 import { Parser } from './parser';
 
-export interface DMS {
-  degrees: number;
-  minutes: number;
-  seconds: number;
-}
+
 
 export class Coord {
   private _latitude: Parser;
@@ -17,21 +13,21 @@ export class Coord {
   }
 
   get latitude(): number {
-    return new Formatter(this._latitude).toDecimal()
+    return this._latitude.decimal
   }
 
   get longitude() {
-    return new Formatter(this._longitude).toDecimal()
+    return this._longitude.decimal
   }
 
   getLatitude(options?: FormatterOptions) {
     const formatter = new Formatter(this._latitude);
-    return !options ? formatter.toDecimal() : formatter.toString('latitude', options);
+    return !options ? this._latitude.decimal : formatter.toString('latitude', options);
   }
 
   getLongitude(options?: FormatterOptions) {
     const formatter = new Formatter(this._longitude);
-    return !options ? formatter.toDecimal() : formatter.toString('longitude', options);
+    return !options ? this._longitude.decimal : formatter.toString('longitude', options);
   }
 }
 

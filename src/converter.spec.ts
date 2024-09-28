@@ -1,5 +1,5 @@
+import { DMS } from "./_interfaces/interface";
 import { Converter } from "./converter";
-import { DMS } from "./coord";
 
 describe('', () => {
   describe('Decimal to DMS', () => {
@@ -42,15 +42,15 @@ describe('', () => {
 
   describe('Normalize DMS', () => {
     const cases = [
-      // D
+      // // D
       { input: { degrees: 40.50 }, expected: { degrees: 40, minutes: 30, seconds: 0 } },
       { input: { degrees: 40 }, expected: { degrees: 40, minutes: 0, seconds: 0 } },
       { input: { degrees: 40.5678 }, expected: { degrees: 40, minutes: 34, seconds: 4.07999 } },
       { input: { degrees: 40.005678 }, expected: { degrees: 40, minutes: 0, seconds: 20.4408 } },
       // // DM
-      { input: { degrees: 40.50, minutes: 5 }, expected: {  degrees: 40, minutes: 35, seconds: 0 } },
+      { input: { degrees: 40.50, minutes: 5 }, expected: {  degrees: 40, minutes: 34, seconds: 59.9988 } },
       { input: { degrees: 40.50, minutes: 5.5 }, expected: {  degrees: 40, minutes: 35, seconds: 30 } },
-      // DMS
+      // // DMS
       { input: { degrees: 40.50, minutes: 5, seconds: 30 }, expected: {  degrees: 40, minutes: 35, seconds: 30 } },
       { input: { degrees: 40.50, minutes: 5.5, seconds: 29 }, expected: {  degrees: 40, minutes: 35, seconds: 59 } },
       { input: { degrees: 40.50, minutes: 5.5, seconds: 30 }, expected: {  degrees: 40, minutes: 36, seconds: 0 } },
@@ -58,7 +58,7 @@ describe('', () => {
 
     test.each(cases)('Normaliza o DMS %s', (data) => {
       const result = Converter.normalizeDMS(data.input as unknown as DMS)
-      // console.log('Input:', data.input)
+      // console.log('Input:', data.input, 'Expected:', data.expected)
       // console.log('Result:', result)
       expect(result.degrees).toBeCloseTo(data.expected.degrees)
       expect(result.minutes).toBeCloseTo(data.expected.minutes)

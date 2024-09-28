@@ -1,4 +1,5 @@
-import { getCases } from './data';
+import { getCases } from '../test/data';
+import { ExtendedDMS } from './_interfaces/interface';
 import { Formatter } from './formatter';
 import { Parser } from './parser';
 
@@ -14,10 +15,14 @@ describe('Formatter', () => {
     expect(+calculatedFloat.toFixed(5)).toBe(input.expected);
   });
 
-  test.only.each(getCases())('parse %s to int', (input) => {
-    const format = new Formatter(new Parser(input));
-    console.log(format.format(({ signal, minute }) => `${signal}${minute}`));
+  test.only.each(getCases())('format(%s)', (input) => {
+    const parse = new Parser(input);
 
+    const formatFn = (data: ExtendedDMS) => `${data.degrees}° ${data.minutes}'${data.compass||''}`
+
+    const formated = new Formatter(parse).format(formatFn);
+    // console.log('formated', formated);
+    expect(formated).toBe(formatFn(parse))
     // console.log({ input, calculatedFloat });
     // expect(+calculatedFloat.toFixed(5)).toBe(input.expected)
   });
